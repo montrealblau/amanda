@@ -1,0 +1,36 @@
+# Node.js dependencies
+node_modules/
+package-lock.json  # Optional: Include if you use yarn instead of npm, or if you want to regenerate it on deploy
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Build artifacts (if any)
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# OS-generated files
+.DS_Store  # Mac
+Thumbs.db  # Windows
+
+# Editor files
+.vscode/  # VS Code settings
+.idea/    # JetBrains IDEs (e.g., WebStorm)
+
+# Sensitive or local config files
+config.json  # If you have a local config file
+secrets.json
+
+
+public/uploads/
+public/images/
