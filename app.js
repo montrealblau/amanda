@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -6,6 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const dotenv = require('dotenv');
 const ContactRequest = require('./models/contactRequest');
+const uri = process.env.MONGO_URI;
 dotenv.config();
 
 const app = express();
@@ -24,13 +26,29 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 // MongoDB Connection with error handling
-mongoose.connect('mongodb://localhost:27017/qr-menu', { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect('mongodb://localhost:27017/qr-menu', { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => {
+//     console.error('MongoDB connection error:', err);
+//     process.exit(1); // Exit process if DB connection fails
+//   });
+
+
+//REAL
+  // MongoDB Connection with error handling
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
     process.exit(1); // Exit process if DB connection fails
   });
+
+
+
+
 
 // Models
 const User = require('./models/user');
