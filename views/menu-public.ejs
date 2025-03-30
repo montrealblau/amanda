@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Pico CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    section {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .menu-card {
+      background: #f7fafc;
+      padding: 1rem;
+      border-radius: 0.25rem;
+    }
+    .menu-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.25rem;
+    }
+    .item-img {
+      max-width: 150px;
+      height: auto;
+    }
+    footer {
+      background: #2d3748;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    footer a {
+      color: #a0aec0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Header Section -->
+    <header>
+      <h1><%= menu.title %></h1>
+      <% if (menu.owner) { %>
+        <% if (menu.owner.restaurantName) { %>
+          <p><%= menu.owner.restaurantName %></p>
+        <% } %>
+        <% if (menu.owner.restaurantAddress) { %>
+          <p><%= menu.owner.restaurantAddress %></p>
+        <% } %>
+        <% if (menu.owner.restaurantPhoto) { %>
+          <p><img src="<%= menu.owner.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 300px;"></p>
+        <% } %>
+      <% } %>
+    </header>
+
+    <!-- Menu Image -->
+    <% if (menu.image) { %>
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <img src="<%= menu.image %>" alt="Menu Image" style="max-width: 300px;">
+      </div>
+    <% } %>
+
+    <!-- Categories and Items -->
+    <% menu.categories.forEach(category => { %>
+      <section>
+        <h2><%= category.name %></h2>
+        <div class="menu-grid">
+          <% category.items.forEach(item => { %>
+            <article class="menu-card">
+              <h3><%= item.name %></h3>
+              <p><strong>$<%= item.price.toFixed(2) %></strong></p>
+              <% if (item.image) { %>
+                <img src="<%= item.image %>" alt="<%= item.name %>" class="item-img">
+              <% } %>
+              <% if (item.ingredients) { %>
+                <p><small>Ingredients: <%= item.ingredients %></small></p>
+              <% } %>
+              <% if (item.allergens) { %>
+                <p><small style="color: #e53e3e;">Allergens: <%= item.allergens %></small></p>
+              <% } %>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    <% }) %>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
+    <dialog id="support-modal">
+      <article>
+        <a href="#" class="close">×</a>
+        <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
+      </article>
+    </dialog>
+  </footer>
+
+  <!-- JavaScript for Modal -->
+  <script>
+    const supportLink = document.getElementById('support-link');
+    const supportModal = document.getElementById('support-modal');
+    const supportCloseBtn = document.querySelector('#support-modal .close');
+
+    supportLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.showModal();
+    });
+
+    supportCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.close();
+    });
+  </script>
+</body>
+</html>

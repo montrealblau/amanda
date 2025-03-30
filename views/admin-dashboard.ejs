@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Pico CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding: 2rem;
+    }
+    nav {
+      background: #2d3748;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: white;
+      margin-right: 1rem;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: #f7fafc;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+    ul li a {
+      color: #3182ce;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Admin Dashboard</h1>
+    <nav>
+      <a href="/admin-dashboard">Dashboard</a>
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <section>
+      <h2>Platform Statistics</h2>
+      <p>Total Registered Users: <%= totalUsers %></p>
+    </section>
+
+    <section>
+      <h2>All Menus</h2>
+      <ul>
+        <% allMenus.forEach(menu => { %>
+          <li>
+            <%= menu.title %> by <%= menu.owner.username %>
+            - <a href="/menu/<%= menu.link %>">View</a>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contact Requests (Start My Free Trial)</h2>
+      <ul>
+        <% contactRequests.forEach(request => { %>
+          <li>
+            <strong><%= request.restaurantName %></strong> - <%= request.contactName %> (<%= request.email %>)
+            <br>Plan: <%= request.plan %>
+            <br>Message: <%= request.message || 'N/A' %>
+            <br>Submitted: <%= request.createdAt.toLocaleDateString() %>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

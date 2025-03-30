@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Pico CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding: 2rem;
+    }
+    nav {
+      background: #2d3748;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: white;
+      margin-right: 1rem;
+    }
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .category {
+      background: #f7fafc;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    .items {
+      margin: 1rem 0;
+    }
+    .item {
+      background: #edf2f7;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .item input {
+      margin-bottom: 0.5rem;
+    }
+    button[type="button"] {
+      background: #e2e8f0;
+      color: #2d3748;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+    button[type="button"]:hover {
+      background: #cbd5e0;
+    }
+    footer {
+      background: #2d3748;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    footer a {
+      color: #a0aec0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Create Menu</h1>
+    <nav>
+      <a href="/my-menus">My Menus</a>
+      <a href="/create-menu">Create Menu</a>
+      <a href="/profile">Profile</a>
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <% if (currentUser.restaurantName) { %>
+      <p>Restaurant: <%= currentUser.restaurantName %></p>
+    <% } %>
+    <% if (currentUser.restaurantPhoto) { %>
+      <p><img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 200px;"></p>
+    <% } %>
+
+    <form action="/create-menu" method="POST" enctype="multipart/form-data">
+      <input type="text" name="title" placeholder="Menu Title" required>
+      <h3>Categories</h3>
+      <div id="categories">
+        <div class="category">
+          <input type="text" name="categoryName[]" placeholder="Category Name (e.g., Drinks)" required>
+          <div class="items">
+            <div class="item">
+              <input type="text" name="itemName[0][]" placeholder="Item Name" required>
+              <input type="text" name="ingredients[0][]" placeholder="Ingredients">
+              <input type="text" name="allergens[0][]" placeholder="Allergens">
+              <input type="number" name="price[0][]" placeholder="Price" step="0.01">
+              <input type="file" name="itemImage" accept="image/*">
+            </div>
+          </div>
+          <button type="button" onclick="addItem(this)">Add Item</button>
+        </div>
+      </div>
+      <button type="button" onclick="addCategory()">Add Category</button>
+      <input type="file" name="image" accept="image/*">
+      <button type="submit">Save Menu</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
+    <dialog id="support-modal">
+      <article>
+        <a href="#" class="close">×</a>
+        <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
+      </article>
+    </dialog>
+  </footer>
+
+  <script>
+    let categoryCount = 1;
+    function addCategory() {
+      const div = document.createElement('div');
+      div.className = 'category';
+      div.innerHTML = `
+        <input type="text" name="categoryName[]" placeholder="Category Name (e.g., Drinks)" required>
+        <div class="items">
+          <div class="item">
+            <input type="text" name="itemName[${categoryCount}][]" placeholder="Item Name" required>
+            <input type="text" name="ingredients[${categoryCount}][]" placeholder="Ingredients">
+            <input type="text" name="allergens[${categoryCount}][]" placeholder="Allergens">
+            <input type="number" name="price[${categoryCount}][]" placeholder="Price" step="0.01">
+            <input type="file" name="itemImage" accept="image/*">
+          </div>
+        </div>
+        <button type="button" onclick="addItem(this)">Add Item</button>
+      `;
+      document.getElementById('categories').appendChild(div);
+      categoryCount++;
+    }
+
+    function addItem(button) {
+      const categoryIndex = Array.from(document.querySelectorAll('.category')).indexOf(button.parentElement);
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `
+        <input type="text" name="itemName[${categoryIndex}][]" placeholder="Item Name" required>
+        <input type="text" name="ingredients[${categoryIndex}][]" placeholder="Ingredients">
+        <input type="text" name="allergens[${categoryIndex}][]" placeholder="Allergens">
+        <input type="number" name="price[${categoryIndex}][]" placeholder="Price" step="0.01">
+        <input type="file" name="itemImage" accept="image/*">
+      `;
+      button.previousElementSibling.appendChild(div);
+    }
+
+    const supportLink = document.getElementById('support-link');
+    const supportModal = document.getElementById('support-modal');
+    const supportCloseBtn = document.querySelector('#support-modal .close');
+
+    supportLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.showModal();
+    });
+
+    supportCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.close();
+    });
+  </script>
+</body>
+</html>

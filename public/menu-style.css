@@ -1,0 +1,229 @@
+/* Reset defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif; /* Modern, sleek font */
+  line-height: 1.7;
+  background-color: #F5F6F5; /* Light gray-green base */
+  color: #1A2E35; /* Deep slate text */
+}
+
+/* Container */
+.container {
+  max-width: 900px; /* Optimal width for readability */
+  margin: 0 auto;
+  padding: 30px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Menu Public Specific Styles */
+.menu-public {
+  margin: 20px auto; /* Centered with spacing */
+}
+
+/* Headings */
+h1 {
+  font-size: 2.5em;
+  color: #4A7047; /* Forest Sage for title */
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  font-size: 1.8em;
+  color: #00CED1; /* Cyber Teal for category names */
+  margin: 30px 0 15px;
+  font-weight: 600;
+  border-bottom: 2px solid #E6E6FA; /* Digital Lavender underline */
+  padding-bottom: 5px;
+}
+
+/* Restaurant Info */
+.menu-public p {
+  font-size: 1.1em;
+  color: #1A2E35;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.menu-public img {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Category Items */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  background: #F5E6CC; /* Warm Sand for item background */
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+li strong {
+  font-size: 1.2em;
+  color: #1A2E35;
+  font-weight: 600;
+}
+
+li img {
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 2px solid #FF6F61; /* Neon Coral border */
+}
+
+li br + span, li br + text {
+  display: block;
+  font-size: 0.95em;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Price Styling */
+li::after {
+  content: '$' attr(data-price); /* Assumes price is in the template */
+  font-weight: 600;
+  color: #FF6F61; /* Neon Coral for price */
+  margin-left: 10px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px;
+  background: #1A2E35; /* Deep Slate */
+  color: #FFFFFF;
+  margin-top: 40px;
+}
+
+footer .container {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+footer a {
+  color: #FF6F61; /* Neon Coral */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #E65B50;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 46, 53, 0.7); /* Deep Slate overlay */
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  margin: 20% auto;
+  padding: 25px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.8em;
+  cursor: pointer;
+  color: #1A2E35;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #FF6F61; /* Neon Coral */
+}
+
+.modal-content p {
+  font-size: 1.1em;
+  color: #1A2E35;
+}
+
+.modal-content a {
+  color: #00CED1; /* Cyber Teal */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.modal-content a:hover {
+  color: #00B7BD;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+  li {
+    padding: 15px;
+  }
+  .menu-public img {
+    max-width: 250px;
+  }
+  li img {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+    margin: 10px;
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+  li {
+    padding: 10px;
+  }
+}

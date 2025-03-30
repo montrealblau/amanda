@@ -1,0 +1,480 @@
+/* Reset defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif; /* Modern, sleek font replacing Poppins */
+  line-height: 1.7;
+  background-color: #F5F6F5; /* Light gray-green for a fresh base */
+  color: #1A2E35; /* Deep slate for text */
+}
+
+/* Headings */
+h1, h2, h3 {
+  margin-bottom: 20px;
+  color: #1A2E35; /* Darker slate for contrast */
+  font-weight: 700;
+}
+
+h1 { font-size: 3em; letter-spacing: -1px; }
+h2 { font-size: 2.2em; }
+
+/* Navigation */
+nav {
+  background: linear-gradient(135deg, #00CED1, #4A7047); /* Cyber Teal to Forest Sage gradient */
+  padding: 15px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav a {
+  color: #FFFFFF;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #FF6F61; /* Neon Coral on hover */
+}
+
+/* Containers */
+.container {
+  max-width: 1280px; /* Slightly wider for modern screens */
+  margin: 0 auto;
+  padding: 30px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Hero Section */
+.hero {
+  background: #E6E6FA; /* Digital Lavender */
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 0 0 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 111, 97, 0.2), transparent);
+  z-index: 0;
+}
+
+.hero p {
+  font-size: 1.3em;
+  margin: 20px 0;
+  color: #4A7047; /* Forest Sage */
+  position: relative;
+  z-index: 1;
+}
+
+.hero button {
+  font-size: 1.2em;
+  padding: 15px 40px;
+  background: #FF6F61; /* Neon Coral */
+  border: none;
+  border-radius: 50px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.hero button:hover {
+  background: #E65B50;
+  transform: scale(1.05);
+}
+
+/* Benefits */
+.benefits {
+  padding: 60px 0;
+  background: #F5E6CC; /* Warm Sand */
+}
+
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.benefit {
+  padding: 25px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Guarantees */
+.guarantees {
+  background: #4A7047; /* Forest Sage */
+  color: #FFFFFF;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 20px;
+  margin: 20px 0;
+}
+
+.guarantees p {
+  font-size: 1.2em;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Pricing */
+.pricing {
+  padding: 60px 0;
+  background: #FFFFFF;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.plan {
+  padding: 30px;
+  background: #F5E6CC; /* Warm Sand */
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.plan.popular {
+  background: #00CED1; /* Cyber Teal */
+  color: #FFFFFF;
+  transform: scale(1.05);
+}
+
+.plan .badge {
+  position: absolute;
+  top: -15px;
+  right: 15px;
+  background: #FF6F61; /* Neon Coral */
+  color: #FFFFFF;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.95em;
+}
+
+.plan:hover {
+  transform: scale(1.03);
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 60px 0;
+  background: #E6E6FA; /* Digital Lavender */
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #1A2E35;
+  font-size: 2.5em;
+}
+
+/* Carousel Styles */
+.testimonial-carousel {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.testimonial {
+  flex: 0 0 100%;
+  padding: 25px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  text-align: center;
+  display: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial.active {
+  display: block;
+}
+
+.testimonial-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  object-fit: cover;
+  border: 3px solid #FF6F61; /* Neon Coral accent */
+}
+
+.testimonial-text {
+  font-style: italic;
+  font-size: 1.15em;
+  margin-bottom: 15px;
+  color: #4A7047; /* Forest Sage */
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: #1A2E35;
+}
+
+.testimonial-company {
+  color: #777;
+  font-size: 0.95em;
+}
+
+/* Navigation Buttons */
+.carousel-prev, .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FF6F61; /* Neon Coral */
+  color: #FFFFFF;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 1.3em;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.carousel-prev {
+  left: -40px;
+}
+
+.carousel-next {
+  right: -40px;
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+  background: #E65B50;
+}
+
+/* Order Form */
+.order {
+  padding: 60px 0;
+  background: #FFFFFF;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+input, select, textarea {
+  padding: 12px;
+  border: 2px solid #E6E6FA; /* Digital Lavender */
+  border-radius: 8px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #FF6F61; /* Neon Coral */
+  outline: none;
+}
+
+textarea {
+  height: 120px;
+}
+
+button {
+  padding: 12px;
+  background: #00CED1; /* Cyber Teal */
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background: #00B7BD;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px;
+  background: #1A2E35; /* Deep slate */
+  color: #FFFFFF;
+}
+
+footer a {
+  color: #FF6F61; /* Neon Coral */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #E65B50;
+}
+
+/* Categories and Items */
+.category {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #F5E6CC; /* Warm Sand */
+  border-radius: 12px;
+}
+
+.items {
+  margin-top: 15px;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #FFFFFF;
+  border: 2px solid #E6E6FA;
+  border-radius: 8px;
+}
+
+.item input {
+  flex: 1 1 220px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 46, 53, 0.7); /* Darker overlay with slate tint */
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  margin: 10% auto;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.8em;
+  cursor: pointer;
+  color: #1A2E35;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #FF6F61; /* Neon Coral */
+}
+
+.modal-content h2 {
+  margin-bottom: 25px;
+  text-align: center;
+  color: #4A7047; /* Forest Sage */
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-content p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.modal-content a {
+  color: #00CED1; /* Cyber Teal */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.modal-content a:hover {
+  color: #00B7BD;
+}
+
+/* Icon Styling */
+#auth-icon {
+  font-size: 1.4em;
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+}
+
+#auth-icon:hover {
+  color: #FF6F61; /* Neon Coral */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+  .hero {
+    padding: 60px 15px;
+  }
+  .hero h1 { font-size: 2.2em; }
+  .benefit-grid, .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .carousel-prev { left: 5px; }
+  .carousel-next { right: 5px; }
+  .testimonial-carousel {
+    max-width: 100%;
+  }
+  .testimonial-img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+  .hero button {
+    padding: 12px 30px;
+    font-size: 1em;
+  }
+}
+
+
+
