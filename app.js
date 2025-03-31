@@ -117,16 +117,6 @@ app.get('/edit-menu/:id', isLoggedIn, async (req, res) => {
 
 app.get('/profile', isLoggedIn, (req, res) => res.render('profile'));
 
-app.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error('Logout error:', err);
-      return res.status(500).send('An error occurred during logout.');
-    }
-    res.redirect('/');
-  });
-});
-
 app.post('/register', async (req, res) => {
   try {
     const newUser = new User({ username: req.body.username });
@@ -152,6 +142,18 @@ app.get('/admin-dashboard', isAdmin, async (req, res) => {
     res.status(500).send('An error occurred while loading the admin dashboard.');
   }
 });
+
+app.post('/logout', (req, res) => {
+  console.log('POST /logout route hit'); // Debug
+  req.logout((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).send('An error occurred during logout.');
+    }
+    res.redirect('/');
+  });
+});
+
 
 app.post('/submit-request', async (req, res) => {
   try {

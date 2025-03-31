@@ -1,0 +1,283 @@
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Hero Section with Auth Icon */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #008080, #ffffff);
+      padding: 4rem 1rem;
+      text-align: center;
+      color: #333;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .hero button {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .hero button:hover {
+      background: #ff8787;
+      transform: scale(1.05);
+    }
+    .auth-icon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #333;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Features Section */
+    #features {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: #f9f9f9;
+    }
+    #features h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-grid article {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .feature-grid article:hover {
+      transform: translateY(-10px);
+    }
+    .feature-grid i {
+      color: #008080;
+      margin-bottom: 1rem;
+    }
+    .feature-grid h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-grid p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* How It Works Section */
+    #how-it-works {
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    #how-it-works h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .steps-grid article {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .steps-grid article:hover {
+      transform: translateY(-10px);
+    }
+    .steps-grid i {
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+    }
+    .steps-grid h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .steps-grid p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* Testimonials Section (Styled like Features) */
+    #testimonials {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: #f9f9f9;
+    }
+    #testimonials h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonial-grid article {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .testimonial-grid article:hover {
+      transform: translateY(-10px);
+    }
+    .testimonial-grid p {
+      font-size: 1rem;
+      color: #333;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .testimonial-grid strong {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* Contact Form Section */
+    #contact-form {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: #ffffff;
+    }
+    #contact-form h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    #contact-form p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: #666;
+    }
+    #contact-form form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #f9f9f9;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #contact-form input, #contact-form textarea {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    #contact-form button {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #contact-form button:hover {
+      background: #ff8787;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .auth-icon {
+        font-size: 1.2rem;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+    }
+/* Auth Dialog Styling */
+.auth-dialog article {
+  background: #f9f9f9; /* Matches contact form background */
+  padding: 2rem; /* Matches contact form padding */
+  border-radius: 10px; /* Matches contact form radius */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Matches contact form shadow */
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative; /* Ensures close button positions correctly */
+}
+.auth-dialog h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.auth-dialog input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.auth-dialog input:focus {
+  border-color: #ff6b6b;
+  outline: none;
+}
+.auth-dialog button {
+  width: 100%;
+  background: #ff6b6b; /* Matches website button color */
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 50px; /* Matches website button style */
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.auth-dialog button:hover {
+  background: #ff8787; /* Lighter coral on hover */
+}
+.auth-dialog p {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.auth-dialog a {
+  color: #ff6b6b; /* Matches button color */
+  text-decoration: none;
+}
+.auth-dialog a:hover {
+  text-decoration: underline;
+}
+.auth-dialog .close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}

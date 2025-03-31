@@ -18,9 +18,16 @@
       border-radius: 0.25rem;
       margin-bottom: 2rem;
     }
-    nav a {
+    nav a, nav button {
       color: white;
       margin-right: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+    }
+    nav a:hover, nav button:hover {
+      text-decoration: underline;
     }
     section {
       margin-bottom: 2rem;
@@ -38,6 +45,22 @@
     ul li a {
       color: #3182ce;
     }
+    ul li a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background: #2d3748;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    footer a {
+      color: #a0aec0;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -45,7 +68,9 @@
     <h1>Admin Dashboard</h1>
     <nav>
       <a href="/admin-dashboard">Dashboard</a>
-      <a href="/logout">Logout</a>
+      <form action="/logout" method="POST" style="display: inline;">
+        <button type="submit">Logout</button>
+      </form>
     </nav>
 
     <section>
@@ -79,5 +104,31 @@
       </ul>
     </section>
   </main>
+
+  <footer>
+    <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
+    <dialog id="support-modal">
+      <article>
+        <a href="#" class="close">×</a>
+        <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
+      </article>
+    </dialog>
+  </footer>
+
+  <script>
+    const supportLink = document.getElementById('support-link');
+    const supportModal = document.getElementById('support-modal');
+    const supportCloseBtn = document.querySelector('#support-modal .close');
+
+    supportLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.showModal();
+    });
+
+    supportCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.close();
+    });
+  </script>
 </body>
 </html>

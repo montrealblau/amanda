@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
   <!-- Pico CSS CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <%# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"> %>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
@@ -10,112 +10,321 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      padding: 2rem;
+body {
+      font-family: 'Inter', sans-serif;
     }
-    header {
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #008080, #ffffff);
+      padding: 4rem 1rem;
+      text-align: center;
+      color: #333;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .hero img {
+      max-width: 300px;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+
+    /* Menu Section */
+    #menu-public {
+      padding: 4rem 1rem;
+      background: #f9f9f9;
+      text-align: center;
+    }
+    .menu-image {
       text-align: center;
       margin-bottom: 2rem;
     }
-    section {
-      max-width: 1200px;
-      margin: 0 auto 2rem;
+    .menu-image img {
+      max-width: 300px;
+      border-radius: 10px;
     }
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
+    .accordion {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .category-section {
+      margin-bottom: 1rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .category-header {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    .category-header:hover {
+      background: #f1f1f1;
+    }
+    .category-header h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+    }
+    .category-header .toggle-icon {
+      font-size: 1.5rem;
+      color: #ff6b6b;
+      transition: transform 0.3s ease;
+    }
+    .category-header.active .toggle-icon {
+      transform: rotate(180deg);
+    }
+    .menu-items {
+      display: none; /* Hidden by default */
+      padding: 1.5rem;
+      background: #f9f9f9;
+    }
+    .menu-items.active {
+      display: block; /* Shown when expanded */
     }
     .menu-card {
-      background: #f7fafc;
-      padding: 1rem;
-      border-radius: 0.25rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+      display: flex; /* Use flexbox for layout */
+      align-items: center; /* Vertically center content */
+      gap: 1rem; /* Space between text and image */
+      transition: transform 0.3s ease;
+    }
+    .menu-card:hover {
+      transform: translateY(-5px);
+    }
+    .menu-card .text-content {
+      flex: 0 1 60%; /* Take up to 60% of the space, but don't grow beyond that */
+      text-align: left; /* Ensure text is aligned to the left */
+    }
+    .menu-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .menu-card p {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 0.5rem;
     }
     .menu-card img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 0.25rem;
-    }
-    .item-img {
       max-width: 150px;
       height: auto;
+      border-radius: 10px; /* Rounded corners */
+      order: 2; /* Ensure image is on the right */
+      flex-shrink: 0; /* Prevent image from shrinking */
     }
+    .menu-card .price {
+      font-weight: 600;
+      color: #ff6b6b;
+    }
+    .menu-card .allergens {
+      color: #e53e3e;
+      font-style: italic;
+    }
+
+    /* Footer */
     footer {
       background: #2d3748;
       color: white;
-      padding: 1rem;
+      padding: 2rem 1rem;
       text-align: center;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .social-links a {
+      color: white;
+      margin: 0 0.5rem;
+      font-size: 1.5rem;
+    }
+    .contact-info p {
+      margin: 0.5rem 0;
+    }
+    footer p {
+      margin-top: 1rem;
+      font-size: 0.9rem;
     }
     footer a {
       color: #a0aec0;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Support Modal */
+    #support-modal {
+      background: transparent;
+      border: none;
+    }
+    #support-modal article {
+      background: #f9f9f9;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: 0 auto;
+      position: relative;
+    }
+    #support-modal .close::after {
+      content: none;
+    }
+    #support-modal p {
+      font-size: 1rem;
+      color: #333;
+    }
+    #support-modal a {
+      color: #ff6b6b;
+    }
+    #support-modal .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .hero img {
+        max-width: 200px;
+      }
+      .category-header h2 {
+        font-size: 1.5rem;
+      }
+      .menu-card {
+        flex-direction: column; /* Stack vertically on small screens */
+        align-items: flex-start; /* Align to the left */
+      }
+      .menu-card .text-content {
+        flex: 1; /* Take full width on mobile */
+      }
+      .menu-card img {
+        max-width: 120px;
+        order: 0; /* Move image back to top */
+        margin-bottom: 1rem;
+      }
+      .menu-image img {
+        max-width: 200px;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <!-- Header Section -->
-    <header>
-      <h1><%= menu.title %></h1>
-      <% if (menu.owner) { %>
-        <% if (menu.owner.restaurantName) { %>
-          <p><%= menu.owner.restaurantName %></p>
-        <% } %>
-        <% if (menu.owner.restaurantAddress) { %>
-          <p><%= menu.owner.restaurantAddress %></p>
-        <% } %>
-        <% if (menu.owner.restaurantPhoto) { %>
-          <p><img src="<%= menu.owner.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 300px;"></p>
-        <% } %>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1><%= menu.title %></h1>
+    <% if (menu.owner) { %>
+      <% if (menu.owner.restaurantName) { %>
+        <p><%= menu.owner.restaurantName %></p>
       <% } %>
-    </header>
+      <% if (menu.owner.restaurantAddress) { %>
+        <p><%= menu.owner.restaurantAddress %></p>
+      <% } %>
+      <% if (menu.owner.restaurantPhoto) { %>
+        <img src="<%= menu.owner.restaurantPhoto %>" alt="Restaurant Photo">
+      <% } %>
+    <% } %>
+  </section>
 
-    <!-- Menu Image -->
+  <!-- Menu Section -->
+  <section id="menu-public">
     <% if (menu.image) { %>
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <img src="<%= menu.image %>" alt="Menu Image" style="max-width: 300px;">
+      <div class="menu-image">
+        <img src="<%= menu.image %>" alt="Menu Image">
       </div>
     <% } %>
-
-    <!-- Categories and Items -->
-    <% menu.categories.forEach(category => { %>
-      <section>
-        <h2><%= category.name %></h2>
-        <div class="menu-grid">
-          <% category.items.forEach(item => { %>
-            <article class="menu-card">
-              <h3><%= item.name %></h3>
-              <p><strong>$<%= item.price.toFixed(2) %></strong></p>
-              <% if (item.image) { %>
-                <img src="<%= item.image %>" alt="<%= item.name %>" class="item-img">
-              <% } %>
-              <% if (item.ingredients) { %>
-                <p><small>Ingredients: <%= item.ingredients %></small></p>
-              <% } %>
-              <% if (item.allergens) { %>
-                <p><small style="color: #e53e3e;">Allergens: <%= item.allergens %></small></p>
-              <% } %>
-            </article>
-          <% }) %>
+    <div class="accordion">
+      <% menu.categories.forEach(category => { %>
+        <div class="category-section">
+          <div class="category-header">
+            <h2><%= category.name %></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="menu-items">
+            <% category.items.forEach(item => { %>
+              <article class="menu-card">
+                <div class="text-content">
+                  <h3><%= item.name %></h3>
+                  <% if (item.ingredients) { %>
+                    <p><small>Ingredients: <%= item.ingredients %></small></p>
+                  <% } %>
+                  <% if (item.allergens) { %>
+                    <p class="allergens"><small>Allergens: <%= item.allergens %></small></p>
+                  <% } %>
+                  <p class="price">$<%= item.price.toFixed(2) %></p>
+                </div>
+                <% if (item.image) { %>
+                  <img src="<%= item.image %>" alt="<%= item.name %>">
+                <% } %>
+              </article>
+            <% }) %>
+          </div>
         </div>
-      </section>
-    <% }) %>
-  </main>
+      <% }) %>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <div class="contact-info">
+        <p><i class="fas fa-envelope"></i> info@qr-table.com</p>
+        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+      </div>
+    </div>
     <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
-    <dialog id="support-modal">
-      <article>
-        <a href="#" class="close">×</a>
-        <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
-      </article>
-    </dialog>
   </footer>
 
-  <!-- JavaScript for Modal -->
+  <!-- Support Modal -->
+  <dialog id="support-modal">
+    <article>
+      <a href="#" class="close">×</a>
+      <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
+    </article>
+  </dialog>
+
+  <!-- JavaScript -->
   <script>
     const supportLink = document.getElementById('support-link');
     const supportModal = document.getElementById('support-modal');
     const supportCloseBtn = document.querySelector('#support-modal .close');
+    const categoryHeaders = document.querySelectorAll('.category-header');
 
     supportLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -125,6 +334,25 @@
     supportCloseBtn.addEventListener('click', (e) => {
       e.preventDefault();
       supportModal.close();
+    });
+
+    categoryHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const items = header.nextElementSibling;
+        const isActive = items.classList.contains('active');
+
+        // Collapse all other sections
+        document.querySelectorAll('.menu-items').forEach(item => {
+          item.classList.remove('active');
+          item.previousElementSibling.classList.remove('active');
+        });
+
+        // Toggle the clicked section
+        if (!isActive) {
+          items.classList.add('active');
+          header.classList.add('active');
+        }
+      });
     });
   </script>
 </body>
