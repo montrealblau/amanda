@@ -11,236 +11,388 @@
     body {
       font-family: 'Inter', sans-serif;
     }
-    header nav {
-      background: #2d3748;
-      color: white;
-      padding: 1rem;
-    }
-    header nav a {
-      color: white;
-      margin-right: 1rem;
-    }
+
+    /* Hero Section with Auth Icon */
     .hero {
-      background: linear-gradient(135deg, #6b48ff, #00d4ff);
-      color: white;
-      padding: 3rem 1rem;
+      position: relative;
+      background: linear-gradient(135deg, #008080, #ffffff);
+      padding: 4rem 1rem;
       text-align: center;
+      color: #333;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
     }
     .hero button {
-      background: #ffffff;
-      color: #6b48ff;
+      background: #ff6b6b;
+      color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.25rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
     .hero button:hover {
-      background: #e6e6e6;
+      background: #ff8787;
+      transform: scale(1.05);
     }
-    section {
-      padding: 2rem 1rem;
-    }
-    #features, #pricing, #contact {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .benefit-grid, .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-    .benefit-grid article, .pricing-grid article {
-      background: #f7fafc;
-      padding: 1rem;
-      border-radius: 0.25rem;
-    }
-    .pricing-grid article.popular {
-      background: #e6fffa;
-      border: 2px solid #4fd1c5;
-      position: relative;
-    }
-    .pricing-grid article.popular::after {
-      content: "Most Popular";
+    .auth-icon {
       position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background: #4fd1c5;
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-    }
-    .testimonials {
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .carousel-inner article {
-      display: none;
-      text-align: center;
-    }
-    .carousel-inner article.active {
-      display: block;
-    }
-    .testimonial-img {
-      max-width: 100px;
-      border-radius: 50%;
-    }
-    .carousel-prev, .carousel-next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
+      top: 1rem;
+      right: 1rem;
+      color: #333;
       font-size: 1.5rem;
       cursor: pointer;
     }
-    .carousel-prev {
-      left: -2rem;
-    }
-    .carousel-next {
-      right: -2rem;
-    }
-    footer {
-      background: #2d3748;
-      color: white;
-      padding: 1rem;
+
+    /* Features Section */
+    #features {
       text-align: center;
+      padding: 4rem 1rem;
+      background: #f9f9f9;
     }
-    footer a {
-      color: #a0aec0;
+    #features h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
     }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-grid article {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .feature-grid article:hover {
+      transform: translateY(-10px);
+    }
+    .feature-grid i {
+      color: #008080;
+      margin-bottom: 1rem;
+    }
+    .feature-grid h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-grid p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* How It Works Section */
+    #how-it-works {
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    #how-it-works h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .steps-grid article {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .steps-grid article:hover {
+      transform: translateY(-10px);
+    }
+    .steps-grid i {
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+    }
+    .steps-grid h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .steps-grid p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* Testimonials Section (Styled like Features) */
+    #testimonials {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: #f9f9f9;
+    }
+    #testimonials h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonial-grid article {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .testimonial-grid article:hover {
+      transform: translateY(-10px);
+    }
+    .testimonial-grid p {
+      font-size: 1rem;
+      color: #333;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .testimonial-grid strong {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* Contact Form Section */
+    #contact-form {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: #ffffff;
+    }
+    #contact-form h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    #contact-form p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: #666;
+    }
+    #contact-form form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #f9f9f9;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #contact-form input, #contact-form textarea {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    #contact-form button {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #contact-form button:hover {
+      background: #ff8787;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .auth-icon {
+        font-size: 1.2rem;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+    }
+/* Auth Dialog Styling */
+.auth-dialog article {
+  background: #f9f9f9; /* Matches contact form background */
+  padding: 2rem; /* Matches contact form padding */
+  border-radius: 10px; /* Matches contact form radius */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Matches contact form shadow */
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative; /* Ensures close button positions correctly */
+}
+.auth-dialog h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.auth-dialog input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.auth-dialog input:focus {
+  border-color: #ff6b6b;
+  outline: none;
+}
+.auth-dialog button {
+  width: 100%;
+  background: #ff6b6b; /* Matches website button color */
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 50px; /* Matches website button style */
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.auth-dialog button:hover {
+  background: #ff8787; /* Lighter coral on hover */
+}
+.auth-dialog p {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.auth-dialog a {
+  color: #ff6b6b; /* Matches button color */
+  text-decoration: none;
+}
+.auth-dialog a:hover {
+  text-decoration: underline;
+}
+.auth-dialog .close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <nav>
-      <a href="/">Home</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#contact">Contact</a>
-      <a href="#" id="auth-icon"><i class="fas fa-user"></i></a>
-    </nav>
-  </header>
-
-  <!-- Auth Modal -->
-  <dialog id="auth-modal">
-    <article>
-      <a href="#" class="close">×</a>
-      <div id="login-form">
-        <h2>Login</h2>
-        <form action="/login" method="POST">
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-          <button type="submit">Login</button>
-        </form>
-        <p>Not a member? <a href="#" id="switch-to-register">Register here</a></p>
-      </div>
-      <div id="register-form" style="display: none;">
-        <h2>Register</h2>
-        <form action="/register" method="POST">
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-          <button type="submit">Register</button>
-        </form>
-        <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
-      </div>
-    </article>
-  </dialog>
-
-  <!-- Hero Section -->
+  <!-- Hero Section with Auth Icon -->
   <section class="hero">
-    <h1>Revolutionize Your Restaurant with Our QR Code Menu App</h1>
-    <p>Speed up orders, delight customers, and boost profits with a modern, all-in-one digital menu solution.</p>
-    <button onclick="document.getElementById('order-form').scrollIntoView()">Get Started Now</button>
+    <a href="#" id="auth-icon" class="auth-icon"><i class="fas fa-user"></i></a>
+    <h1>Dining, Redefined</h1>
+    <p>Scan QR Codes to Order and Pay Instantly</p>
+    <button onclick="window.location.href='/download'">Get the App</button>
   </section>
+
+<!-- Auth Modal -->
+ <dialog id="auth-modal" class="auth-dialog">
+  <article>
+    <a href="#" class="close"></a>
+    <div id="login-form">
+      <h2>Login</h2>
+      <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <p>Not a member? <a href="#" id="switch-to-register">Register here</a></p>
+    </div>
+    <div id="register-form" style="display: none;">
+      <h2>Register</h2>
+      <form action="/register" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
+    </div>
+  </article>
+</dialog>
 
   <!-- Features Section -->
   <section id="features">
-    <h2>Why Choose Our QR Code Menu App?</h2>
-    <div class="benefit-grid">
-      <% ['Faster Order Processing', 'Reduced Server Workload', 'Personalized Experience', 'Upselling & Cross-Selling', 'Loyalty Integration', 'Competitive Advantage', 'Better Engagement'].forEach((title, index) => { %>
-        <article>
-          <h3><%= title %></h3>
-          <p><%= ['Speeds up service and boosts table turnover with instant smartphone ordering.', 'Frees staff to focus on customer service, not order-taking.', 'Customizes dining with saved preferences and order history.', 'Increases revenue with easy add-on suggestions.', 'Encourages repeat business with seamless rewards.', 'Differentiates your restaurant with cutting-edge tech.', 'Enhances interaction via digital menus and offers.'][index] %></p>
-        </article>
-      <% }) %>
+    <h2>Key Features</h2>
+    <div class="feature-grid">
+      <article>
+        <i class="fas fa-qrcode fa-3x"></i>
+        <h3>Fast QR Scanning</h3>
+        <p>Quick and reliable QR code scanning for seamless ordering.</p>
+      </article>
+      <article>
+        <i class="fas fa-table fa-3x"></i>
+        <h3>Table Management</h3>
+        <p>Efficiently manage table assignments and orders.</p>
+      </article>
+      <article>
+        <i class="fas fa-credit-card fa-3x"></i>
+        <h3>Easy Payments</h3>
+        <p>Secure and convenient payment options for customers.</p>
+      </article>
     </div>
   </section>
 
-  <!-- Guarantees Section -->
-  <section>
-    <h2>Our Promise to You</h2>
-    <p>Try it risk-free with our <strong>30-day money-back guarantee</strong>. If it doesn’t transform your restaurant, we’ll refund you—no questions asked.</p>
-  </section>
-
-  <!-- Pricing Section -->
-  <section id="pricing">
-    <h2>Pricing Plans</h2>
-    <div class="pricing-grid">
+  <!-- How It Works Section -->
+  <section id="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps-grid">
       <article>
-        <h3>Basic</h3>
-        <p>$49/month</p>
-        <ul>
-          <li>Core QR menu features</li>
-          <li>Perfect for small restaurants</li>
-        </ul>
-        <button onclick="document.getElementById('order-form').scrollIntoView()">Choose Basic</button>
-      </article>
-      <article class="popular">
-        <h3>Pro</h3>
-        <p>$99/month</p>
-        <ul>
-          <li>All Basic features</li>
-          <li>Loyalty programs</li>
-          <li>Upselling tools</li>
-        </ul>
-        <button onclick="document.getElementById('order-form').scrollIntoView()">Choose Pro</button>
+        <i class="fas fa-qrcode fa-4x"></i>
+        <h3>Scan the Code</h3>
+        <p>Use your phone to scan the QR code at your table.</p>
       </article>
       <article>
-        <h3>Enterprise</h3>
-        <p>Custom Pricing</p>
-        <ul>
-          <li>All Pro features</li>
-          <li>For chains or large venues</li>
-        </ul>
-        <button onclick="document.getElementById('order-form').scrollIntoView()">Contact Us</button>
+        <i class="fas fa-utensils fa-4x"></i>
+        <h3>Order Your Meal</h3>
+        <p>Browse the menu and place your order directly from your device.</p>
+      </article>
+      <article>
+        <i class="fas fa-credit-card fa-4x"></i>
+        <h3>Pay and Go</h3>
+        <p>Pay securely through the app and enjoy your meal.</p>
       </article>
     </div>
-    <p>Save 20% with annual billing!</p>
   </section>
 
   <!-- Testimonials Section -->
-  <section class="testimonials">
-    <h2>What Restaurants Are Saying</h2>
-    <div class="testimonial-carousel">
-      <div class="carousel-inner">
-        <% [{name: 'Sarah Lee', company: 'Lee’s Bistro', text: 'Order times dropped by 25%, and customers love the convenience!', img: '/images/testimonial1.jpg'},
-            {name: 'Mark Patel', company: 'Patel’s Grill', text: 'The upselling feature paid for the app in the first month. Highly recommend!', img: '/images/testimonial2.jpg'},
-            {name: 'Emma Chen', company: 'Chen’s Noodle House', text: 'Our staff workload decreased, and sales went up—amazing tool!', img: '/images/testimonial3.jpg'},
-            {name: 'Carlos Rivera', company: 'Rivera’s Tacos', text: 'Customers keep coming back thanks to the loyalty integration.', img: '/images/testimonial4.jpg'},
-            {name: 'Lisa Kim', company: 'Kim’s Sushi Bar', text: 'A game-changer for customer engagement and efficiency!', img: '/images/testimonial5.jpg'},
-            {name: 'James Carter', company: 'Carter’s BBQ', text: 'The QR menus gave us a modern edge over competitors.', img: '/images/testimonial6.jpg'},
-            {name: 'Aisha Khan', company: 'Khan’s Curry Corner', text: 'Easy to use and increased our table turnover significantly.', img: '/images/testimonial7.jpg'},
-            {name: 'Tom Nguyen', company: 'Nguyen’s Pho Shop', text: 'Personalized orders boosted customer satisfaction through the roof!', img: '/images/testimonial8.jpg'},
-            {name: 'Sophie Dubois', company: 'Dubois Café', text: 'A must-have for any restaurant looking to modernize.', img: '/images/testimonial9.jpg'},
-            {name: 'Raj Patel', company: 'Patel’s Sweets', text: 'Cross-selling options doubled our dessert sales!', img: '/images/testimonial10.jpg'}].forEach((t, i) => { %>
-          <article class="testimonial <%= i === 0 ? 'active' : '' %>">
-            <img src="<%= t.img %>" alt="<%= t.name %>" class="testimonial-img">
-            <p><em>“<%= t.text %>”</em></p>
-            <p><strong><%= t.name %></strong></p>
-            <p><%= t.company %></p>
-          </article>
-        <% }) %>
-      </div>
-      <button class="carousel-prev"><i class="fas fa-chevron-left"></i></button>
-      <button class="carousel-next"><i class="fas fa-chevron-right"></i></button>
+  <section id="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-grid">
+      <article>
+        <p>"Order times dropped by 25%, and customers love the convenience!"</p>
+        <p><strong>Sarah Lee</strong>, Lee’s Bistro</p>
+      </article>
+      <article>
+        <p>"The upselling feature paid for the app in the first month. Highly recommend!"</p>
+        <p><strong>Mark Patel</strong>, Patel’s Grill</p>
+      </article>
+      <article>
+        <p>"Our staff workload decreased, and sales went up—amazing tool!"</p>
+        <p><strong>Emma Chen</strong>, Chen’s Noodle House</p>
+      </article>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <h2>Get Started Today</h2>
+  <section id="contact-form">
+    <h2>Contact Us</h2>
+    <p>Have questions? Reach out to us, and we'll get back to you within 24 hours.</p>
     <form id="order-form" action="/submit-request" method="POST">
       <input type="text" name="restaurantName" placeholder="Restaurant Name" required>
       <input type="text" name="contactName" placeholder="Contact Name" required>
@@ -255,20 +407,14 @@
     </form>
   </section>
 
+
   <!-- Footer -->
   <footer>
     <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
-    <dialog id="support-modal">
-      <article>
-        <a href="#" class="close">×</a>
-        <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
-      </article>
-    </dialog>
   </footer>
 
-  <!-- JavaScript -->
+  <!-- JavaScript for Auth Modal -->
   <script>
-    // Auth Modal Logic
     const authIcon = document.getElementById('auth-icon');
     const authModal = document.getElementById('auth-modal');
     const authCloseBtn = document.querySelector('#auth-modal .close');
@@ -300,54 +446,6 @@
       loginForm.style.display = 'block';
       registerForm.style.display = 'none';
     });
-
-    // Support Modal Logic
-    const supportLink = document.getElementById('support-link');
-    const supportModal = document.getElementById('support-modal');
-    const supportCloseBtn = document.querySelector('#support-modal .close');
-
-    supportLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      supportModal.showModal();
-    });
-
-    supportCloseBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      supportModal.close();
-    });
-
-    // Carousel Logic
-    const carouselInner = document.querySelector('.carousel-inner');
-    const testimonials = document.querySelectorAll('.testimonial');
-    const prevBtn = document.querySelector('.carousel-prev');
-    const nextBtn = document.querySelector('.carousel-next');
-    let currentIndex = 0;
-
-    function updateCarousel() {
-      testimonials.forEach((testimonial, index) => {
-        testimonial.classList.remove('active');
-        if (index === currentIndex) {
-          testimonial.classList.add('active');
-        }
-      });
-    }
-
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
-      updateCarousel();
-    });
-
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % testimonials.length;
-      updateCarousel();
-    });
-
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % testimonials.length;
-      updateCarousel();
-    }, 5000);
-
-    updateCarousel();
   </script>
 </body>
 </html>
