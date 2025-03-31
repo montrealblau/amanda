@@ -31,7 +31,3 @@ Thumbs.db  # Windows
 # Sensitive or local config files
 config.json  # If you have a local config file
 secrets.json
-
-
-public/uploads/
-public/images/
