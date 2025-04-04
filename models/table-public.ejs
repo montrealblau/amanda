@@ -1,0 +1,14 @@
+<h1><%= menu.title %> - <%= table %></h1>
+<form action="/table/<%= table.qrLink %>/order" method="post">
+  <% menu.categories.forEach((cat, catIdx) => { %>
+    <h2><%= cat.name %></h2>
+    <% cat.items.forEach((item, itemIdx) => { %>
+      <label>
+        <input type="checkbox" name="items[<%= catIdx %>][<%= itemIdx %>][name]" value="<%= item.name %>">
+        <%= item.name %> - $<%= item.price %>
+        <input type="text" name="items[<%= catIdx %>][<%= itemIdx %>][customizations]" placeholder="Customizations">
+      </label><br>
+    <% }) %>
+  <% }) %>
+  <input type="submit" value="Place Order">
+</form>

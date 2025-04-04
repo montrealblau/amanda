@@ -14,7 +14,8 @@ const menuSchema = new mongoose.Schema({
   }],
   image: String,           // Overall menu image
   link: String,
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  mode: { type: String, enum: ['view-only', 'order'], default: 'view-only' } // New field
 });
 
 module.exports = mongoose.model('Menu', menuSchema);

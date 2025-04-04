@@ -5,469 +5,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    /* Hero Section */
-    .hero {
-      position: relative;
-      background: linear-gradient(135deg, #008080, #ffffff);
-      padding: 4rem 1rem;
-      text-align: center;
-      color: #333;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .user-icon {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      color: #333;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    nav a {
-      color: #333;
-      font-size: 1.1rem;
-      font-weight: 600;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    nav a:hover {
-      background: #ff6b6b;
-      color: white;
-    }
-
-    /* Profile Section */
-    #profile {
-      padding: 4rem 1rem;
-      background: #f9f9f9;
-      text-align: center;
-    }
-    #profile h2 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #333;
-    }
-    .profile-section {
-      max-width: 800px;
-      margin: 0 auto 3rem;
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: left;
-    }
-    .profile-section h3 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-      color: #333;
-    }
-    .profile-section p {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
-    .profile-section img {
-      max-width: 200px;
-      border-radius: 10px;
-      margin-top: 0.5rem;
-    }
-    .profile-section form {
-      margin-bottom: 1rem;
-    }
-    .profile-section input[type="text"],
-    .profile-section input[type="file"] {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    .profile-section input:focus {
-      border-color: #ff6b6b;
-      outline: none;
-    }
-    .profile-section button[type="submit"] {
-      background: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .profile-section button[type="submit"]:hover {
-      background: #ff8787;
-    }
-    .profile-section button[type="submit"]:last-of-type {
-      background: #e53e3e;
-    }
-    .profile-section button[type="submit"]:last-of-type:hover {
-      background: #c53030;
-    }
-
-    /* Footer */
-    footer {
-      background: #2d3748;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-    .footer-content {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .social-links a {
-      color: white;
-      margin: 0 0.5rem;
-      font-size: 1.5rem;
-    }
-    .contact-info p {
-      margin: 0.5rem 0;
-    }
-    footer p {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #a0aec0;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Logout Dialog */
-    .logout-dialog {
-      background: transparent;
-      border: none;
-    }
-    .logout-dialog article {
-      background: #f9f9f9;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .logout-dialog .close::after {
-      content: none;
-    }
-    .logout-dialog h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .logout-dialog button {
-      width: 100%;
-      background: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 1rem;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .logout-dialog button:hover {
-      background: #ff8787;
-    }
-    .logout-dialog .close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: #333;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* Support Modal */
-    #support-modal {
-      background: transparent;
-      border: none;
-    }
-    #support-modal article {
-      background: #f9f9f9;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      margin: 0 auto;
-      position: relative;
-    }
-    #support-modal .close::after {
-      content: none;
-    }
-    #support-modal p {
-      font-size: 1rem;
-      color: #333;
-    }
-    #support-modal a {
-      color: #ff6b6b;
-    }
-    #support-modal .close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: #333;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      .user-icon {
-        font-size: 1.2rem;
-        top: 0.5rem;
-        right: 0.5rem;
-      }
-      nav {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      nav a {
-        font-size: 1rem;
-        padding: 0.5rem;
-      }
-      .profile-section {
-        padding: 1.5rem;
-      }
-    }
-        body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    /* Hero Section with User Icon */
-    .hero {
-      position: relative;
-      background: linear-gradient(135deg, #008080, #ffffff);
-      padding: 4rem 1rem;
-      text-align: center;
-      color: #333;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-    }
-    .user-icon {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      color: #333;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Menus Section */
-    #menus {
-      text-align: center;
-      padding: 4rem 1rem;
-      background: #f9f9f9;
-    }
-    #menus h2 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-    }
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .menu-grid article {
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      text-align: left;
-    }
-    .menu-grid article:hover {
-      transform: translateY(-10px);
-    }
-    .menu-grid h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-    .menu-grid p {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 1rem;
-    }
-    .menu-grid .actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .menu-grid a, .menu-grid button {
-      background: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .menu-grid a:hover, .menu-grid button:hover {
-      background: #ff8787;
-    }
-    .menu-grid form {
-      display: inline;
-    }
-
-    /* Footer */
-    footer {
-      background: #2d3748;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-    .footer-content {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .social-links a {
-      color: white;
-      margin: 0 0.5rem;
-      font-size: 1.5rem;
-    }
-    .contact-info p {
-      margin: 0.5rem 0;
-    }
-    footer p {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #a0aec0;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Logout Dialog */
-    .logout-dialog {
-      background: transparent;
-      border: none;
-    }
-    .logout-dialog article {
-      background: #f9f9f9;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .logout-dialog .close::after {
-      content: none;
-    }
-    .logout-dialog h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .logout-dialog button {
-      width: 100%;
-      background: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 1rem;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .logout-dialog button:hover {
-      background: #ff8787;
-    }
-    .logout-dialog .close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: #333;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      .user-icon {
-        font-size: 1.2rem;
-        top: 0.5rem;
-        right: 0.5rem;
-      }
-      .menu-grid .actions {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-    }
-    
-  </style>
+  <link rel="stylesheet" href="/stylesheet.css">
 </head>
 <body>
   <!-- Hero Section -->
   <section class="hero">
     <a href="#" id="user-icon" class="user-icon"><i class="fas fa-user"></i></a>
-    <h1>Profile</h1>
+    <h1>My Menus</h1>
     <nav>
       <a href="/my-menus">My Menus</a>
       <a href="/create-menu">Create Menu</a>
@@ -485,31 +29,67 @@
       </form>
     </article>
   </dialog>
+
   <!-- Menus Section -->
   <section id="menus">
-    <h2>Your Menus</h2>
-    <% if (currentUser.restaurantPhoto) { %>
+    <h2>My Menus</h2>
+    <% if (currentUser && currentUser.restaurantPhoto) { %>
       <p><img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 200px; border-radius: 10px; margin-bottom: 2rem;"></p>
     <% } %>
     <div class="menu-grid">
-      <% menus.forEach(menu => { %>
-        <article>
-          <h3><%= menu.title %></h3>
-          <p>(<%= menu.categories.map(cat => cat.name).join(', ') %>)</p>
-          <div class="actions">
-            <a href="/menu/<%= menu.link %>">View Public Link</a>
-            <a href="/edit-menu/<%= menu._id %>">Edit</a>
-            <form action="/delete-menu/<%= menu._id %>" method="POST">
-              <button type="submit" onclick="return confirm('Are you sure you want to delete this menu?');">Delete</button>
-            </form>
-          </div>
-        </article>
-      <% }) %>
+      <% if (menus.length > 0) { %>
+        <% menus.forEach(menu => { %>
+          <article>
+            <h3><%= menu.title %></h3>
+            <p>(<%= menu.categories.map(cat => cat.name).join(', ') %>)</p>
+            <div class="actions">
+              <a href="/menu/<%= menu.link %>">View Public Link</a>
+              <a href="/edit-menu/<%= menu._id %>">Edit</a>
+              <form action="/delete-menu/<%= menu._id %>" method="POST">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this menu?');">Delete</button>
+              </form>
+              <!-- Mode Toggle -->
+              <label>Mode:</label>
+              <select onchange="updateMenuMode('<%= menu._id.toString() %>', this.value)">
+                <option value="view-only" <%= menu.mode === 'view-only' ? 'selected' : '' %>>View-only</option>
+                <option value="order" <%= menu.mode === 'order' ? 'selected' : '' %>>Order</option>
+              </select>
+            </div>
+
+            <!-- List existing tables -->
+            <h3>Tables</h3>
+            <ul class="tables-list">
+              <% tables.filter(t => t.menu.toString() === menu._id.toString()).forEach(table => { %>
+                <li>
+                  <%= table.number %> - QR Link: <%= table.qrLink %>
+                  <div class="actions">
+                    <form action="/delete-table/<%= table._id %>" method="POST">
+                      <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
+                    </form>
+                  </div>
+                </li>
+              <% }) %>
+              <% if (tables.filter(t => t.menu.toString() === menu._id.toString()).length === 0) { %>
+                <li>No tables assigned yet.</li>
+              <% } %>
+            </ul>
+
+            <!-- Add new tables -->
+            <div class="actions">
+              <form action="/create-tables/<%= menu._id %>" method="POST">
+                <input type="number" name="tableCount" placeholder="Number of Tables" min="1" required>
+                <button type="submit">Add Tables</button>
+              </form>
+            </div>
+          </article>
+        <% }) %>
+      <% } else { %>
+        <p>No menus yet.</p>
+      <% } %>
+
       <article>
-        <h3>Create New Menu</h3>
-        <p>Add a new menu to your collection.</p>
         <div class="actions">
-          <a href="/create-menu">Create Now</a>
+          <a href="/create-menu">Create new menu</a>
         </div>
       </article>
     </div>
@@ -568,6 +148,25 @@
       e.preventDefault();
       supportModal.close();
     });
+
+    // Define updateMenuMode function
+    async function updateMenuMode(menuId, mode) {
+      console.log('Updating menu:', menuId, 'to mode:', mode); // Debug log
+      try {
+        const response = await fetch(`/menus/${menuId}/mode`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode })
+        });
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+        console.log('Mode updated successfully'); // Success log
+      } catch (error) {
+        console.error('Error updating mode:', error);
+        alert('Failed to update menu mode.');
+      }
+    }
   </script>
 </body>
 </html>

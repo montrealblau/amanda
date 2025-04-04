@@ -8,7 +8,13 @@ const path = require('path');
 const dotenv = require('dotenv');
 const ContactRequest = require('./models/contactRequest');
 const uri = process.env.MONGO_URI;
-dotenv.config();
+const { v4: uuidv4 } = require('uuid');
+const csv = require('csv-parser');
+const fs = require('fs');
+const Table = require('./models/table');
+const Order = require('./models/order');
+
+
 
 const app = express();
 
@@ -19,6 +25,7 @@ app.set('view engine', 'ejs');
 app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.json());
 
 // Pass user to all views
 app.use((req, res, next) => {
@@ -27,19 +34,11 @@ app.use((req, res, next) => {
 });
 
 
+// LOCAL
 
-// MongoDB Connection with error handling
-// mongoose.connect('mongodb://localhost:27017/qr-menu', { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log('MongoDB connected'))
-//   .catch(err => {
-//     console.error('MongoDB connection error:', err);
-//     process.exit(1); // Exit process if DB connection fails
-//   });
+//MongoDB Connection with error handling
 
-
-//REAL
-  // MongoDB Connection with error handling
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/qr-menu', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
@@ -47,7 +46,14 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   });
 
 
-
+//REAL
+  // MongoDB Connection with error handling
+// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => {
+//     console.error('MongoDB connection error:', err);
+//     process.exit(1); // Exit process if DB connection fails
+//   });
 
 
 // Models
@@ -59,19 +65,28 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Multer for Image Uploads
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
 });
-const upload = multer({ storage }).fields([
-  { name: 'image', maxCount: 1 },
-  { name: 'itemImage', maxCount: 50 }
-]);
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    // Accept 'image' and any 'itemImage[catIndex][itemIndex]' fields
+    if (file.fieldname === 'image' || file.fieldname.match(/^itemImage\[\d+\]\[\d+\]$/)) {
+      cb(null, true);
+    } else {
+      cb(new MulterError('Unexpected field'), false);
+    }
+  }
+}).any();
+
 
 const uploadProfile = multer({ storage }).fields([
   { name: 'restaurantPhoto', maxCount: 1 }
 ]);
+
+const uploadCSV = multer({ storage }).single('menuFile'); // For /import-menu
 
 // Middleware to check login
 function isLoggedIn(req, res, next) {
@@ -92,43 +107,20 @@ app.get('/', (req, res) => res.render('index'));
 
 app.get('/create-menu', isLoggedIn, (req, res) => res.render('create-menu'));
 
+
 app.get('/my-menus', isLoggedIn, async (req, res) => {
   try {
     const menus = await Menu.find({ owner: req.user._id });
-    res.render('my-menus', { menus });
+    const tables = await Table.find({ menu: { $in: menus.map(m => m._id) } });
+    res.render('my-menus', { menus, tables, newMenu: req.query.newMenu });
   } catch (err) {
     console.error('Error fetching menus:', err);
     res.status(500).send('An error occurred while fetching your menus.');
   }
 });
 
-app.get('/edit-menu/:id', isLoggedIn, async (req, res) => {
-  try {
-    const menu = await Menu.findById(req.params.id);
-    if (!menu || menu.owner.toString() !== req.user._id.toString()) {
-      return res.status(404).send('Menu not found or not yours');
-    }
-    res.render('edit-menu', { menu });
-  } catch (err) {
-    console.error('Error fetching menu for edit:', err);
-    res.status(500).send('An error occurred while loading the menu.');
-  }
-});
 
-app.get('/profile', isLoggedIn, (req, res) => res.render('profile'));
 
-app.post('/register', async (req, res) => {
-  try {
-    const newUser = new User({ username: req.body.username });
-    await User.register(newUser, req.body.password);
-    passport.authenticate('local')(req, res, () => {
-      res.redirect('/profile');
-    });
-  } catch (err) {
-    console.error('Registration error:', err);
-    res.status(400).send('Registration failed: ' + (err.message || 'Unknown error'));
-  }
-});
 
 // Admin dashboard route
 app.get('/admin-dashboard', isAdmin, async (req, res) => {
@@ -187,101 +179,50 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (re
   }
 });
 
-app.post('/create-menu', isLoggedIn, (req, res, next) => {
-  upload(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).send('File upload error: ' + err.message);
-    } else if (err) {
-      return res.status(500).send('Unknown upload error: ' + err.message);
-    }
-    next();
-  });
-}, async (req, res) => {
+app.post('/register', async (req, res) => {
   try {
-    const uniqueLink = Math.random().toString(36).substring(2, 10);
-    const categories = [];
-    const { categoryName, itemName, ingredients, allergens, price } = req.body;
-    const itemImages = req.files['itemImage'] || [];
-
-    if (categoryName) {
-      const names = Array.isArray(categoryName) ? categoryName : [categoryName];
-      names.forEach((name, catIndex) => {
-        const items = [];
-        const itemNames = Array.isArray(itemName[catIndex]) ? itemName[catIndex] : [itemName[catIndex]];
-        const itemIngredients = Array.isArray(ingredients[catIndex]) ? ingredients[catIndex] : [ingredients[catIndex]];
-        const itemAllergens = Array.isArray(allergens[catIndex]) ? allergens[catIndex] : [allergens[catIndex]];
-        const itemPrices = Array.isArray(price[catIndex]) ? price[catIndex] : [price[catIndex]];
-
-        itemNames.forEach((name, itemIndex) => {
-          if (name) {
-            items.push({
-              name,
-              ingredients: itemIngredients[itemIndex] || '',
-              allergens: itemAllergens[itemIndex] || '',
-              price: parseFloat(itemPrices[itemIndex]) || 0,
-              image: itemImages.length > 0 && itemImages[catIndex * 10 + itemIndex] ? `/uploads/${itemImages[catIndex * 10 + itemIndex].filename}` : null
-            });
-          }
-        });
-        if (items.length > 0) {
-          categories.push({ name, items });
-        }
-      });
-    }
-
-    const menu = new Menu({
-      title: req.body.title,
-      categories,
-      image: req.files['image'] ? `/uploads/${req.files['image'][0].filename}` : null,
-      link: uniqueLink,
-      owner: req.user._id
+    const newUser = new User({ username: req.body.username });
+    await User.register(newUser, req.body.password);
+    passport.authenticate('local')(req, res, () => {
+      res.redirect('/profile');
     });
-    await menu.save();
-    res.redirect('/my-menus');
   } catch (err) {
-    console.error('Error creating menu:', err);
-    res.status(500).send('An error occurred while creating the menu.');
+    console.error('Registration error:', err);
+    res.status(400).send('Registration failed: ' + (err.message || 'Unknown error'));
   }
 });
 
-app.post('/edit-menu/:id', isLoggedIn, (req, res, next) => {
-  upload(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).send('File upload error: ' + err.message);
-    } else if (err) {
-      return res.status(500).send('Unknown upload error: ' + err.message);
-    }
-    next();
-  });
-}, async (req, res) => {
+app.post('/create-menu', isLoggedIn, upload, async (req, res) => {
   try {
-    const menu = await Menu.findById(req.params.id);
-    if (!menu || menu.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).send('Unauthorized');
-    }
-    menu.title = req.body.title || menu.title;
+    const uniqueLink = require('uuid').v4();
+    const { title, categoryName, itemName = {}, price = {} } = req.body;
+    const uploadedFiles = req.files || [];
 
-    const { categoryName, itemName, ingredients, allergens, price } = req.body;
-    const itemImages = req.files['itemImage'] || [];
+    const menu = new Menu({
+      title,
+      categories: [],
+      link: uniqueLink,
+      owner: req.user._id
+    });
 
     if (categoryName) {
       const names = Array.isArray(categoryName) ? categoryName : [categoryName];
-      menu.categories = [];
       names.forEach((name, catIndex) => {
         const items = [];
-        const itemNames = Array.isArray(itemName[catIndex]) ? itemName[catIndex] : [itemName[catIndex]];
-        const itemIngredients = Array.isArray(ingredients[catIndex]) ? ingredients[catIndex] : [ingredients[catIndex]];
-        const itemAllergens = Array.isArray(allergens[catIndex]) ? allergens[catIndex] : [allergens[catIndex]];
-        const itemPrices = Array.isArray(price[catIndex]) ? price[catIndex] : [price[catIndex]];
+        const itemNames = Array.isArray(itemName[catIndex]) ? itemName[catIndex] : (itemName[catIndex] ? [itemName[catIndex]] : []);
+        const itemPrices = Array.isArray(price[catIndex]) ? price[catIndex] : (price[catIndex] ? [price[catIndex]] : []);
 
         itemNames.forEach((name, itemIndex) => {
           if (name) {
+            const fieldName = `itemImage[${catIndex}][${itemIndex}]`;
+            const uploadedImageFile = uploadedFiles.find(f => f.fieldname === fieldName);
+            const uploadedImage = uploadedImageFile ? `/uploads/${uploadedImageFile.filename}` : null;
             items.push({
               name,
-              ingredients: itemIngredients[itemIndex] || '',
-              allergens: itemAllergens[itemIndex] || '',
+              ingredients: '',
+              allergens: '',
               price: parseFloat(itemPrices[itemIndex]) || 0,
-              image: itemImages.length > 0 && itemImages[catIndex * 10 + itemIndex] ? `/uploads/${itemImages[catIndex * 10 + itemIndex].filename}` : (menu.categories[catIndex]?.items[itemIndex]?.image || null)
+              image: uploadedImage
             });
           }
         });
@@ -291,7 +232,70 @@ app.post('/edit-menu/:id', isLoggedIn, (req, res, next) => {
       });
     }
 
-    if (req.files['image']) menu.image = `/uploads/${req.files['image'][0].filename}`;
+    const menuImageFile = uploadedFiles.find(f => f.fieldname === 'image');
+    if (menuImageFile) {
+      menu.image = `/uploads/${menuImageFile.filename}`;
+    }
+
+    await menu.save();
+    res.redirect(`/my-menus?newMenu=${menu._id}`);
+  } catch (err) {
+    console.error('Error creating menu:', err);
+    res.status(500).send('An error occurred while creating the menu.');
+  }
+});
+
+app.post('/edit-menu/:id', isLoggedIn, upload, async (req, res) => {
+  try {
+    console.log('Uploaded files:', req.files);
+    console.log('Request body:', req.body);
+
+    const menu = await Menu.findById(req.params.id);
+    if (!menu || menu.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).send('Unauthorized');
+    }
+    menu.title = req.body.title || menu.title;
+
+    const { categoryName, itemName = {}, price = {}, existingItemImage = {}, existingMenuImage } = req.body;
+    const uploadedFiles = req.files || [];
+
+    if (categoryName) {
+      const names = Array.isArray(categoryName) ? categoryName : [categoryName];
+      menu.categories = [];
+
+      names.forEach((name, catIndex) => {
+        const items = [];
+        const itemNames = Array.isArray(itemName[catIndex]) ? itemName[catIndex] : (itemName[catIndex] ? [itemName[catIndex]] : []);
+        const itemPrices = Array.isArray(price[catIndex]) ? price[catIndex] : (price[catIndex] ? [price[catIndex]] : []);
+        const existingImages = Array.isArray(existingItemImage[catIndex]) ? existingItemImage[catIndex] : (existingItemImage[catIndex] ? [existingItemImage[catIndex]] : []);
+
+        itemNames.forEach((name, itemIndex) => {
+          if (name) {
+            const fieldName = `itemImage[${catIndex}][${itemIndex}]`;
+            const uploadedImageFile = uploadedFiles.find(f => f.fieldname === fieldName);
+            const uploadedImage = uploadedImageFile ? `/uploads/${uploadedImageFile.filename}` : existingImages[itemIndex];
+            items.push({
+              name,
+              ingredients: '', // Match create-menu; edit-menu doesn’t use these yet
+              allergens: '',   // Match create-menu; edit-menu doesn’t use these yet
+              price: parseFloat(itemPrices[itemIndex]) || 0,
+              image: uploadedImage || null
+            });
+          }
+        });
+        if (items.length > 0) {
+          menu.categories.push({ name, items });
+        }
+      });
+    }
+
+    const menuImageFile = uploadedFiles.find(f => f.fieldname === 'image');
+    if (menuImageFile) {
+      menu.image = `/uploads/${menuImageFile.filename}`;
+    } else {
+      menu.image = existingMenuImage || menu.image;
+    }
+
     await menu.save();
     res.redirect('/my-menus');
   } catch (err) {
@@ -300,45 +304,19 @@ app.post('/edit-menu/:id', isLoggedIn, (req, res, next) => {
   }
 });
 
-app.post('/profile', isLoggedIn, (req, res, next) => {
-  uploadProfile(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).send('File upload error: ' + err.message);
-    } else if (err) {
-      return res.status(500).send('Unknown upload error: ' + err.message);
-    }
-    next();
-  });
-}, async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-    user.restaurantName = req.body.restaurantName || user.restaurantName;
-    user.restaurantAddress = req.body.restaurantAddress || user.restaurantAddress;
-    if (req.files['restaurantPhoto']) user.restaurantPhoto = `/uploads/${req.files['restaurantPhoto'][0].filename}`;
-    await user.save();
-    res.redirect('/profile');
-  } catch (err) {
-    console.error('Error updating profile:', err);
-    res.status(500).send('An error occurred while updating your profile.');
-  }
-});
-
-app.post('/delete-menu/:id', isLoggedIn, async (req, res) => {
+app.get('/edit-menu/:id', isLoggedIn, async (req, res) => {
   try {
     const menu = await Menu.findById(req.params.id);
     if (!menu || menu.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).send('Unauthorized');
+      return res.status(404).send('Menu not found or not yours');
     }
-    await Menu.findByIdAndDelete(req.params.id);
-    res.redirect('/my-menus');
+    res.render('edit-menu', { menu, currentUser: req.user });
   } catch (err) {
-    console.error('Error deleting menu:', err);
-    res.status(500).send('An error occurred while deleting the menu.');
+    console.error('Error fetching menu for edit:', err);
+    res.status(500).send('An error occurred while loading the menu.');
   }
 });
+
 
 app.post('/delete-profile', isLoggedIn, async (req, res) => {
   try {
@@ -361,11 +339,38 @@ app.post('/delete-profile', isLoggedIn, async (req, res) => {
 app.get('/menu/:link', async (req, res) => {
   try {
     const menu = await Menu.findOne({ link: req.params.link }).populate('owner');
+    console.log(menu);
+    if (!menu) return res.status(404).send('Menu not found');
+    const tableId = req.query.table || '';
+    res.render('menu-public', { menu, tableId });
+  } catch (err) {
+    console.error('Error fetching public menu:', err);
+    res.status(500).send('An error occurred while loading the menu.');
+  }
+});
+
+app.get('/menu/:qrLink', async (req, res) => {
+  try {
+    const menu = await Menu.findOne({ link: req.params.link }).populate('owner');
     if (!menu) return res.status(404).send('Menu not found');
     res.render('menu-public', { menu });
   } catch (err) {
     console.error('Error fetching public menu:', err);
     res.status(500).send('An error occurred while loading the menu.');
+  }
+});
+
+app.post('/delete-menu/:id', isLoggedIn, async (req, res) => {
+  try {
+    const menu = await Menu.findById(req.params.id);
+    if (!menu || menu.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).send('Unauthorized');
+    }
+    await Menu.findByIdAndDelete(req.params.id);
+    res.redirect('/my-menus');
+  } catch (err) {
+    console.error('Error deleting menu:', err);
+    res.status(500).send('An error occurred while deleting the menu.');
   }
 });
 
@@ -380,3 +385,142 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
+app.post('/import-menu', isLoggedIn, uploadCSV, async (req, res) => {
+  try {
+    const categories = {};
+    fs.createReadStream(req.file.path)
+      .pipe(csv())
+      .on('data', (row) => {
+        if (!categories[row.Category]) categories[row.Category] = { name: row.Category, items: [] };
+        categories[row.Category].items.push({
+          name: row.Item_Name,
+          price: parseFloat(row.Price) || 0
+        });
+      })
+      .on('end', async () => {
+        const uniqueLink = require('uuid').v4();
+        const menu = new Menu({
+          title: req.body.title || 'Imported Menu',
+          categories: Object.values(categories),
+          link: uniqueLink,
+          owner: req.user._id
+        });
+        await menu.save();
+        fs.unlinkSync(req.file.path); // Clean up temp file
+        res.redirect(`/my-menus?newMenu=${menu._id}`); // Pass new menu ID
+      });
+  } catch (err) {
+    console.error('Import error:', err);
+    res.status(500).send('Failed to import menu');
+  }
+});
+
+app.post('/create-tables/:menuId', isLoggedIn, async (req, res) => {
+  try {
+    const menu = await Menu.findById(req.params.menuId);
+    if (!menu || menu.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).send('Unauthorized');
+    }
+    const { tableCount } = req.body;
+
+    // Get the current number of tables for this menu
+    const existingTables = await Table.find({ menu: menu._id });
+    const currentCount = existingTables.length;
+    
+    const tables = [];
+    for (let i = 1; i <= tableCount; i++) {
+      const qrLink = uuidv4();
+      // Start numbering from currentCount + i
+      tables.push({ menu: menu._id, number: `Table ${currentCount + i}`, qrLink });
+    }
+    await Table.insertMany(tables);
+    res.redirect('/my-menus');
+  } catch (err) {
+    console.error('Table creation error:', err);
+    res.status(500).send('Failed to create tables');
+  }
+});
+
+app.post('/delete-table/:tableId', isLoggedIn, async (req, res) => {
+  try {
+    const table = await Table.findById(req.params.tableId).populate('menu');
+    if (!table || table.menu.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).send('Unauthorized');
+    }
+    await Table.findByIdAndDelete(req.params.tableId);
+    res.redirect('/my-menus');
+  } catch (err) {
+    console.error('Table deletion error:', err);
+    res.status(500).send('Failed to delete table');
+  }
+});
+
+app.post('/menus/:id/mode', isLoggedIn, async (req, res) => {
+  const { mode } = req.body;
+  if (!mode) {
+    return res.status(400).send('Mode is required');
+  }
+  const menu = await Menu.findById(req.params.id);
+  if (!menu || menu.owner.toString() !== req.user._id.toString()) {
+    return res.status(403).send('Unauthorized');
+  }
+  menu.mode = mode;
+  await menu.save();
+  console.log('Updated menu:', menu); // Success log
+  res.sendStatus(200);
+});
+
+app.post('/menu/:link/order', async (req, res) => {
+  try {
+    const menu = await Menu.findOne({ link: req.params.link });
+    if (!menu) return res.status(404).send('Menu not found');
+    const { tableId, items } = req.body; // From client form
+    const order = new Order({ menu: menu._id, tableId, items });
+    await order.save();
+    res.redirect(`/menu/${req.params.link}?order=placed`);
+  } catch (err) {
+    console.error('Order error:', err);
+    res.status(500).send('Failed to place order');
+  }
+});
+app.post('/table/:qrLink/order', async (req, res) => {
+  try {
+    const table = await Table.findOne({ qrLink: req.params.qrLink });
+    if (!table) return res.status(404).send('Table not found');
+    const { items } = req.body; // Array of { name, customizations }
+    const order = new Order({
+      menu: table.menu,
+      tableId: table.number,
+      items: items.map(item => ({ ...item, price: 0 })) // Price lookup needed
+    });
+    await order.save();
+    res.redirect(`/table/${req.params.qrLink}?order=placed`);
+  } catch (err) {
+    console.error('Order error:', err);
+    res.status(500).send('Failed to place order');
+  }
+});
+
+
+app.post('/orders', async (req, res) => {
+  const { menuId, items, tableId } = req.body;
+  try {
+    const order = new Order({ menuId, tableId, items });
+    await order.save();
+    res.sendStatus(201);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to save order');
+  }
+});
+
+app.get('/profile', isLoggedIn, async (req, res) => {
+  const orders = await Order.find({ menuId: { $in: await Menu.find({ owner: req.user._id }).select('_id') } })
+    .populate('tableId', 'number');
+  res.render('profile', { currentUser: req.user, orders });
+});
+
+
+
+

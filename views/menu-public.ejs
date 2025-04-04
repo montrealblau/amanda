@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <!-- Pico CSS CDN -->
-  <%# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"> %>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-body {
       font-family: 'Inter', sans-serif;
     }
 
@@ -88,12 +84,12 @@ body {
       transform: rotate(180deg);
     }
     .menu-items {
-      display: none; /* Hidden by default */
+      display: none;
       padding: 1.5rem;
       background: #f9f9f9;
     }
     .menu-items.active {
-      display: block; /* Shown when expanded */
+      display: block;
     }
     .menu-card {
       background: white;
@@ -101,17 +97,17 @@ body {
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       margin-bottom: 1rem;
-      display: flex; /* Use flexbox for layout */
-      align-items: center; /* Vertically center content */
-      gap: 1rem; /* Space between text and image */
+      display: flex;
+      align-items: center;
+      gap: 1rem;
       transition: transform 0.3s ease;
     }
     .menu-card:hover {
       transform: translateY(-5px);
     }
     .menu-card .text-content {
-      flex: 0 1 60%; /* Take up to 60% of the space, but don't grow beyond that */
-      text-align: left; /* Ensure text is aligned to the left */
+      flex: 0 1 60%;
+      text-align: left;
     }
     .menu-card h3 {
       font-size: 1.5rem;
@@ -126,9 +122,9 @@ body {
     .menu-card img {
       max-width: 150px;
       height: auto;
-      border-radius: 10px; /* Rounded corners */
-      order: 2; /* Ensure image is on the right */
-      flex-shrink: 0; /* Prevent image from shrinking */
+      border-radius: 10px;
+      order: 2;
+      flex-shrink: 0;
     }
     .menu-card .price {
       font-weight: 600;
@@ -137,6 +133,55 @@ body {
     .menu-card .allergens {
       color: #e53e3e;
       font-style: italic;
+    }
+    .menu-card button {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .menu-card button:hover {
+      background: #ff8787;
+    }
+
+    /* Order Summary */
+    #order-summary {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #order-summary h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    #order-items {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+    #order-items li {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    #order-summary button {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #order-summary button:hover {
+      background: #ff8787;
     }
 
     /* Footer */
@@ -209,33 +254,14 @@ body {
 
     /* Responsive Adjustments */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      .hero img {
-        max-width: 200px;
-      }
-      .category-header h2 {
-        font-size: 1.5rem;
-      }
-      .menu-card {
-        flex-direction: column; /* Stack vertically on small screens */
-        align-items: flex-start; /* Align to the left */
-      }
-      .menu-card .text-content {
-        flex: 1; /* Take full width on mobile */
-      }
-      .menu-card img {
-        max-width: 120px;
-        order: 0; /* Move image back to top */
-        margin-bottom: 1rem;
-      }
-      .menu-image img {
-        max-width: 200px;
-      }
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .hero img { max-width: 200px; }
+      .category-header h2 { font-size: 1.5rem; }
+      .menu-card { flex-direction: column; align-items: flex-start; }
+      .menu-card .text-content { flex: 1; }
+      .menu-card img { max-width: 120px; order: 0; margin-bottom: 1rem; }
+      .menu-image img { max-width: 200px; }
     }
   </style>
 </head>
@@ -282,6 +308,9 @@ body {
                     <p class="allergens"><small>Allergens: <%= item.allergens %></small></p>
                   <% } %>
                   <p class="price">$<%= item.price.toFixed(2) %></p>
+                  <% if (menu.mode === 'order') { %>
+                    <button onclick="addToOrder('<%= item._id %>', '<%= item.name %>', <%= item.price %>)">Add to Order</button>
+                  <% } %>
                 </div>
                 <% if (item.image) { %>
                   <img src="<%= item.image %>" alt="<%= item.name %>">
@@ -292,6 +321,15 @@ body {
         </div>
       <% }) %>
     </div>
+
+    <% if (menu.mode === 'order') { %>
+      <div id="order-summary">
+        <h3>Your Order</h3>
+        <ul id="order-items"></ul>
+        <p>Total: $<span id="order-total">0.00</span></p>
+        <button onclick="submitOrder()">Order</button>
+      </div>
+    <% } %>
   </section>
 
   <!-- Footer -->
@@ -321,39 +359,80 @@ body {
 
   <!-- JavaScript -->
   <script>
-    const supportLink = document.getElementById('support-link');
-    const supportModal = document.getElementById('support-modal');
-    const supportCloseBtn = document.querySelector('#support-modal .close');
-    const categoryHeaders = document.querySelectorAll('.category-header');
+  const supportLink = document.getElementById('support-link');
+  const supportModal = document.getElementById('support-modal');
+  const supportCloseBtn = document.querySelector('#support-modal .close');
+  const categoryHeaders = document.querySelectorAll('.category-header');
 
-    supportLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      supportModal.showModal();
-    });
+  // Support modal event listeners
+  supportLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    supportModal.showModal();
+  });
 
-    supportCloseBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      supportModal.close();
-    });
+  supportCloseBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    supportModal.close();
+  });
 
-    categoryHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const items = header.nextElementSibling;
-        const isActive = items.classList.contains('active');
-
-        // Collapse all other sections
-        document.querySelectorAll('.menu-items').forEach(item => {
-          item.classList.remove('active');
-          item.previousElementSibling.classList.remove('active');
-        });
-
-        // Toggle the clicked section
-        if (!isActive) {
-          items.classList.add('active');
-          header.classList.add('active');
-        }
+  // Accordion functionality
+  categoryHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const items = header.nextElementSibling;
+      const isActive = items.classList.contains('active');
+      document.querySelectorAll('.menu-items').forEach(item => {
+        item.classList.remove('active');
+        item.previousElementSibling.classList.remove('active');
       });
+      if (!isActive) {
+        items.classList.add('active');
+        header.classList.add('active');
+      }
     });
-  </script>
+  });
+
+  // Order functionality (only if in "order" mode)
+  const isOrderMode = '<%= menu.mode %>' === 'order';
+  if (isOrderMode) {
+    let order = [];
+    let total = 0;
+
+    function addToOrder(itemId, itemName, itemPrice) {
+      order.push({ id: itemId, name: itemName, price: itemPrice });
+      total += itemPrice;
+      const li = document.createElement('li');
+      li.textContent = `${itemName} - $${itemPrice.toFixed(2)}`;
+      document.getElementById('order-items').appendChild(li);
+      document.getElementById('order-total').textContent = total.toFixed(2);
+    }
+
+    async function submitOrder() {
+      const tableId = new URLSearchParams(window.location.search).get('table') || '<%= typeof tableId !== 'undefined' ? tableId : '' %>';
+      if (!tableId) {
+        alert('Table not found. Please scan the QR code again.');
+        return;
+      }
+      try {
+        const response = await fetch('/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ menuId: '<%= menu._id %>', items: order, tableId })
+        });
+        if (response.ok) {
+          alert('Order submitted successfully!');
+          order = [];
+          total = 0;
+          document.getElementById('order-items').innerHTML = '';
+          document.getElementById('order-total').textContent = '0.00';
+        } else {
+          alert('Failed to submit order.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while submitting your order.');
+      }
+    }
+  }
+</script>
 </body>
 </html>

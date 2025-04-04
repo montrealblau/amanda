@@ -304,6 +304,24 @@
     </div>
 
     <div class="profile-section">
+      <h3>Orders</h3>
+      <% if (orders && orders.length > 0) { %>
+        <ul>
+          <% orders.forEach(order => { %>
+            <li>
+              Table: <%= order.tableId.number %> | 
+              Items: <%= order.items.map(item => item.name).join(', ') %> | 
+              Total: $<%= order.items.reduce((sum, item) => sum + item.price, 0).toFixed(2) %> | 
+              Time: <%= order.createdAt.toLocaleString() %>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p>No orders yet.</p>
+      <% } %>
+    </div>
+
+    <div class="profile-section">
       <h3>Update Profile</h3>
       <form action="/profile" method="POST" enctype="multipart/form-data">
         <input type="text" name="restaurantName" value="<%= currentUser.restaurantName %>" placeholder="Restaurant Name">
