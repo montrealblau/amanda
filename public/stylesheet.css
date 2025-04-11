@@ -67,11 +67,6 @@ nav a {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-nav a:hover {
-  background: #ff6b6b;
-  color: white;
-}
-
 /* Section Styles */
 #features,
 #testimonials,
@@ -180,6 +175,7 @@ nav a:hover {
 }
 
 /* Actions and Buttons */
+/* Actions and Buttons */
 .menu-grid .actions {
   display: flex;
   gap: 1rem;
@@ -188,23 +184,36 @@ nav a:hover {
 
 .menu-grid a,
 .menu-grid button,
-#contact-form button {
-  background: #ff6b6b;
+.menu-grid input[type="submit"] {
+  background: #008080;
   color: white;
+  padding: 0.6rem 1rem;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-size: 1rem;
+  border-radius: 25px;
   font-weight: 600;
-  text-decoration: none;
+  font-size: 1rem;
   cursor: pointer;
+  margin-top: 0.5rem;
   transition: background 0.3s ease;
+  text-decoration: none;
 }
 
 .menu-grid a:hover,
 .menu-grid button:hover,
-#contact-form button:hover {
-  background: #ff8787;
+.menu-grid input[type="submit"]:hover {
+  background: #006666;
+}
+
+.menu-grid button[type="button"] {
+  background: #e2e8f0;
+  color: #333;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.menu-grid button[type="button"]:hover {
+  background: #cbd5e0;
 }
 
 .menu-grid form {

@@ -6,253 +6,52 @@
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    /* Hero Section */
-    .hero {
-      position: relative;
-      background: linear-gradient(135deg, #008080, #ffffff);
-      padding: 4rem 1rem;
-      text-align: center;
-      color: #333;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .hero img {
-      max-width: 300px;
-      border-radius: 10px;
-      margin-top: 1rem;
-    }
-
-    /* Menu Section */
-    #menu-public {
-      padding: 4rem 1rem;
-      background: #f9f9f9;
-      text-align: center;
-    }
-    .menu-image {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .menu-image img {
-      max-width: 300px;
-      border-radius: 10px;
-    }
-    .accordion {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .category-section {
-      margin-bottom: 1rem;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-    .category-header {
-      padding: 1.5rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s ease;
-    }
-    .category-header:hover {
-      background: #f1f1f1;
-    }
-    .category-header h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin: 0;
-      color: #333;
-    }
-    .category-header .toggle-icon {
-      font-size: 1.5rem;
-      color: #ff6b6b;
-      transition: transform 0.3s ease;
-    }
-    .category-header.active .toggle-icon {
-      transform: rotate(180deg);
-    }
-    .menu-items {
-      display: none;
-      padding: 1.5rem;
-      background: #f9f9f9;
-    }
-    .menu-items.active {
-      display: block;
-    }
-    .menu-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: transform 0.3s ease;
-    }
-    .menu-card:hover {
-      transform: translateY(-5px);
-    }
-    .menu-card .text-content {
-      flex: 0 1 60%;
-      text-align: left;
-    }
-    .menu-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-    .menu-card p {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
-    .menu-card img {
-      max-width: 150px;
-      height: auto;
-      border-radius: 10px;
-      order: 2;
-      flex-shrink: 0;
-    }
-    .menu-card .price {
-      font-weight: 600;
-      color: #ff6b6b;
-    }
-    .menu-card .allergens {
-      color: #e53e3e;
-      font-style: italic;
-    }
-    .menu-card button {
-      background: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .menu-card button:hover {
-      background: #ff8787;
-    }
-
-    /* Order Summary */
-    #order-summary {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    #order-summary h3 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-    #order-items {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 1rem;
-    }
-    #order-items li {
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 0.5rem;
-    }
-    #order-summary button {
-      background: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    #order-summary button:hover {
-      background: #ff8787;
-    }
-
-    /* Footer */
-    footer {
-      background: #2d3748;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-    .footer-content {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .social-links a {
-      color: white;
-      margin: 0 0.5rem;
-      font-size: 1.5rem;
-    }
-    .contact-info p {
-      margin: 0.5rem 0;
-    }
-    footer p {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #a0aec0;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Support Modal */
-    #support-modal {
-      background: transparent;
-      border: none;
-    }
-    #support-modal article {
-      background: #f9f9f9;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      margin: 0 auto;
-      position: relative;
-    }
-    #support-modal .close::after {
-      content: none;
-    }
-    #support-modal p {
-      font-size: 1rem;
-      color: #333;
-    }
-    #support-modal a {
-      color: #ff6b6b;
-    }
-    #support-modal .close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: #333;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* Responsive Adjustments */
+    body { font-family: 'Inter', sans-serif; }
+    .hero { position: relative; background: linear-gradient(135deg, #008080, #ffffff); padding: 4rem 1rem; text-align: center; color: #333; }
+    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
+    .hero p { font-size: 1.25rem; margin-bottom: 1rem; }
+    .hero img { max-width: 300px; border-radius: 10px; margin-top: 1rem; }
+    #menu-public { padding: 4rem 1rem; background: #f9f9f9; text-align: center; }
+    .menu-image { text-align: center; margin-bottom: 2rem; }
+    .menu-image img { max-width: 300px; border-radius: 10px; }
+    .accordion { max-width: 1200px; margin: 0 auto; }
+    .category-section { margin-bottom: 1rem; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; }
+    .category-header { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s ease; }
+    .category-header:hover { background: #f1f1f1; }
+    .category-header h2 { font-size: 1.75rem; font-weight: 600; margin: 0; color: #333; }
+    .category-header .toggle-icon { font-size: 1.5rem; color: #ff6b6b; transition: transform 0.3s ease; }
+    .category-header.active .toggle-icon { transform: rotate(180deg); }
+    .menu-items { display: none; padding: 1.5rem; background: #f9f9f9; }
+    .menu-items.active { display: block; }
+    .menu-card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; transition: transform 0.3s ease; }
+    .menu-card:hover { transform: translateY(-5px); }
+    .menu-card .text-content { flex: 0 1 60%; text-align: left; }
+    .menu-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #333; }
+    .menu-card p { font-size: 1rem; color: #666; margin-bottom: 0.5rem; }
+    .menu-card img { max-width: 150px; height: auto; border-radius: 10px; order: 2; flex-shrink: 0; }
+    .menu-card .price { font-weight: 600; color: #ff6b6b; }
+    .menu-card .allergens { color: #e53e3e; font-style: italic; }
+    .menu-card button { background: #ff6b6b; color: white; border: none; padding: 0.5rem 1rem; border-radius: 50px; font-size: 1rem; cursor: pointer; transition: background 0.3s ease; }
+    .menu-card button:hover { background: #ff8787; }
+    #order-summary { max-width: 600px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+    #order-summary h3 { font-size: 1.75rem; margin-bottom: 1rem; }
+    #order-items { list-style: none; padding: 0; margin-bottom: 1rem; }
+    #order-items li { font-size: 1rem; color: #333; margin-bottom: 0.5rem; }
+    #order-summary button { background: #ff6b6b; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 50px; font-size: 1rem; cursor: pointer; }
+    #order-summary button:hover { background: #ff8787; }
+    footer { background: #2d3748; color: white; padding: 2rem 1rem; text-align: center; }
+    .footer-content { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .social-links a { color: white; margin: 0 0.5rem; font-size: 1.5rem; }
+    .contact-info p { margin: 0.5rem 0; }
+    footer p { margin-top: 1rem; font-size: 0.9rem; }
+    footer a { color: #a0aec0; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    #support-modal { background: transparent; border: none; }
+    #support-modal article { background: #f9f9f9; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-width: 400px; margin: 0 auto; position: relative; }
+    #support-modal .close::after { content: none; }
+    #support-modal p { font-size: 1rem; color: #333; }
+    #support-modal a { color: #ff6b6b; }
+    #support-modal .close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: #333; text-decoration: none; cursor: pointer; }
     @media (max-width: 768px) {
       .hero h1 { font-size: 2rem; }
       .hero p { font-size: 1rem; }
@@ -269,6 +68,9 @@
   <!-- Hero Section -->
   <section class="hero">
     <h1><%= menu.title %></h1>
+    <% if (tableId) { %>
+      <p>Table: <%= tableNumber %></p>
+    <% } %>
     <% if (menu.owner) { %>
       <% if (menu.owner.restaurantName) { %>
         <p><%= menu.owner.restaurantName %></p>
@@ -358,13 +160,12 @@
   </dialog>
 
   <!-- JavaScript -->
-  <script>
+<script>
   const supportLink = document.getElementById('support-link');
   const supportModal = document.getElementById('support-modal');
   const supportCloseBtn = document.querySelector('#support-modal .close');
   const categoryHeaders = document.querySelectorAll('.category-header');
 
-  // Support modal event listeners
   supportLink.addEventListener('click', (e) => {
     e.preventDefault();
     supportModal.showModal();
@@ -372,10 +173,9 @@
 
   supportCloseBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    supportModal.close();
+    suportModal.close();
   });
 
-  // Accordion functionality
   categoryHeaders.forEach(header => {
     header.addEventListener('click', () => {
       const items = header.nextElementSibling;
@@ -391,12 +191,12 @@
     });
   });
 
-  // Order functionality (only if in "order" mode)
+  // Order mode logic
   const isOrderMode = '<%= menu.mode %>' === 'order';
-  if (isOrderMode) {
-    let order = [];
-    let total = 0;
+  let order = [];
+  let total = 0;
 
+  if (isOrderMode) {
     function addToOrder(itemId, itemName, itemPrice) {
       order.push({ id: itemId, name: itemName, price: itemPrice });
       total += itemPrice;
@@ -405,32 +205,41 @@
       document.getElementById('order-items').appendChild(li);
       document.getElementById('order-total').textContent = total.toFixed(2);
     }
+  }
 
-    async function submitOrder() {
-      const tableId = new URLSearchParams(window.location.search).get('table') || '<%= typeof tableId !== 'undefined' ? tableId : '' %>';
-      if (!tableId) {
-        alert('Table not found. Please scan the QR code again.');
-        return;
+  // Move submitOrder outside the conditional block
+  async function submitOrder() {
+    const tableId = new URLSearchParams(window.location.search).get('table') || '<%= typeof tableId !== 'undefined' ? tableId : '' %>';
+    if (!tableId) {
+      alert('Table not found. Please scan the QR code again.');
+      return;
+    }
+    if (!isOrderMode) {
+      alert('This menu is not in order mode.');
+      return;
+    }
+    if (order.length === 0) {
+      alert('No items in your order.');
+      return;
+    }
+    try {
+      const response = await fetch('/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ menuId: '<%= menu._id %>', items: order, tableId })
+      });
+      if (response.ok) {
+        alert('Order submitted successfully!');
+        order = [];
+        total = 0;
+        document.getElementById('order-items').innerHTML = '';
+        document.getElementById('order-total').textContent = '0.00';
+      } else {
+        alert('Failed to submit order.');
       }
-      try {
-        const response = await fetch('/orders', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ menuId: '<%= menu._id %>', items: order, tableId })
-        });
-        if (response.ok) {
-          alert('Order submitted successfully!');
-          order = [];
-          total = 0;
-          document.getElementById('order-items').innerHTML = '';
-          document.getElementById('order-total').textContent = '0.00';
-        } else {
-          alert('Failed to submit order.');
-        }
-      } catch (error) {
-        console.error(error);
-        alert('An error occurred while submitting your order.');
-      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while submitting your order.');
     }
   }
 </script>

@@ -5,16 +5,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="/stylesheet.css">
+  <link rel="stylesheet" href="/menuStyleheet.css">
 </head>
 <body>
   <!-- Hero Section -->
   <section class="hero">
     <a href="#" id="user-icon" class="user-icon"><i class="fas fa-user"></i></a>
-    <h1>My Menus</h1>
     <nav>
-      <a href="/my-menus">My Menus</a>
-      <a href="/create-menu">Create Menu</a>
+      <a href="/my-menus" style="background: #008080; color: white;">My Menus</a>
+      <a href="/orders">Orders</a>
       <a href="/profile">Profile</a>
     </nav>
   </section>
@@ -31,69 +30,71 @@
   </dialog>
 
   <!-- Menus Section -->
-  <section id="menus">
-    <h2>My Menus</h2>
-    <% if (currentUser && currentUser.restaurantPhoto) { %>
-      <p><img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 200px; border-radius: 10px; margin-bottom: 2rem;"></p>
+<section id="menus">
+  <% if (currentUser && currentUser.restaurantPhoto) { %>
+    <p><img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 200px; border-radius: 10px; margin-bottom: 2rem;"></p>
+  <% } %>
+  <div class="menu-grid">
+    <% if (menus.length > 0) { %>
+      <% menus.forEach(menu => { %>
+        <article>
+          <h3><%= menu.title %></h3>
+          <p>(<%= menu.categories.map(cat => cat.name).join(', ') %>)</p>
+          <div class="actions">
+            <a href="/menu/<%= menu.link %>">View Public Link</a>
+            <a href="/edit-menu/<%= menu._id %>">Edit</a>
+            <!-- Mode Toggle -->
+            <label>Mode:</label>
+            <select onchange="updateMenuMode('<%= menu._id.toString() %>', this.value)">
+              <option value="view-only" <%= menu.mode === 'view-only' ? 'selected' : '' %>>View-only</option>
+              <option value="order" <%= menu.mode === 'order' ? 'selected' : '' %>>Order</option>
+            </select>
+          </div>
+
+          <!-- List existing tables -->
+          <ul class="tables-list">
+            <% tables.filter(t => t.menu.toString() === menu._id.toString()).forEach(table => { %>
+              <li>
+                <%= table.number %> - QR Link: <a href="<%= table.qrLink %>"><%= table.qrLink %></a>
+                <div class="actions">
+                  <form action="/delete-table/<%= table._id %>" method="POST">
+                    <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
+                  </form>
+                </div>
+              </li>
+            <% }) %>
+            <% if (tables.filter(t => t.menu.toString() === menu._id.toString()).length === 0) { %>
+              <li>No tables assigned yet.</li>
+            <% } %>
+          </ul>
+
+          <!-- Add new tables -->
+          <div class="actions">
+            <form action="/create-tables/<%= menu._id %>" method="POST">
+              <input type="number" name="tableCount" placeholder="Number of Tables" min="1" required>
+              <button type="submit">Add Tables</button>
+            </form>
+          </div>
+
+          <!-- Delete button moved here -->
+          <div class="actions delete-action">
+            <form action="/delete-menu/<%= menu._id %>" method="POST">
+              <button type="submit" onclick="return confirm('Are you sure you want to delete this menu?');">Delete</button>
+            </form>
+          </div>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <p>No menus yet.</p>
     <% } %>
-    <div class="menu-grid">
-      <% if (menus.length > 0) { %>
-        <% menus.forEach(menu => { %>
-          <article>
-            <h3><%= menu.title %></h3>
-            <p>(<%= menu.categories.map(cat => cat.name).join(', ') %>)</p>
-            <div class="actions">
-              <a href="/menu/<%= menu.link %>">View Public Link</a>
-              <a href="/edit-menu/<%= menu._id %>">Edit</a>
-              <form action="/delete-menu/<%= menu._id %>" method="POST">
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this menu?');">Delete</button>
-              </form>
-              <!-- Mode Toggle -->
-              <label>Mode:</label>
-              <select onchange="updateMenuMode('<%= menu._id.toString() %>', this.value)">
-                <option value="view-only" <%= menu.mode === 'view-only' ? 'selected' : '' %>>View-only</option>
-                <option value="order" <%= menu.mode === 'order' ? 'selected' : '' %>>Order</option>
-              </select>
-            </div>
 
-            <!-- List existing tables -->
-            <h3>Tables</h3>
-            <ul class="tables-list">
-              <% tables.filter(t => t.menu.toString() === menu._id.toString()).forEach(table => { %>
-                <li>
-                  <%= table.number %> - QR Link: <%= table.qrLink %>
-                  <div class="actions">
-                    <form action="/delete-table/<%= table._id %>" method="POST">
-                      <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
-                    </form>
-                  </div>
-                </li>
-              <% }) %>
-              <% if (tables.filter(t => t.menu.toString() === menu._id.toString()).length === 0) { %>
-                <li>No tables assigned yet.</li>
-              <% } %>
-            </ul>
-
-            <!-- Add new tables -->
-            <div class="actions">
-              <form action="/create-tables/<%= menu._id %>" method="POST">
-                <input type="number" name="tableCount" placeholder="Number of Tables" min="1" required>
-                <button type="submit">Add Tables</button>
-              </form>
-            </div>
-          </article>
-        <% }) %>
-      <% } else { %>
-        <p>No menus yet.</p>
-      <% } %>
-
-      <article>
-        <div class="actions">
-          <a href="/create-menu">Create new menu</a>
-        </div>
-      </article>
-    </div>
-  </section>
+    <article>
+      <div class="actions">
+        <a href="/create-menu">Create new menu</a>
+      </div>
+    </article>
+  </div>
+</section>
 
   <!-- Footer -->
   <footer>

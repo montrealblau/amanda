@@ -5,69 +5,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/menuStyleheet.css">
   <title>Edit Menu</title>
-  <style>
-    /* Copy styles from create-menu.ejs */
-    body { font-family: 'Inter', sans-serif; }
-    .hero { position: relative; background: linear-gradient(135deg, #008080, #ffffff); padding: 4rem 1rem; text-align: center; color: #333; }
-    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
-    .user-icon { position: absolute; top: 1rem; right: 1rem; color: #333; font-size: 1.5rem; cursor: pointer; }
-    nav { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; }
-    nav a, nav form { display: inline-block; }
-    nav a, nav button { color: #333; font-size: 1.1rem; font-weight: 600; text-decoration: none; padding: 0.5rem 1rem; border-radius: 50px; transition: background 0.3s ease, color 0.3s ease; background: none; border: none; cursor: pointer; }
-    nav a:hover, nav button:hover { background: #ff6b6b; color: white; }
-    #edit-menu { padding: 4rem 1rem; background: #f9f9f9; text-align: center; }
-    .edit-menu-section { max-width: 800px; margin: 0 auto 3rem; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: left; }
-    .edit-menu-section h1 { font-size: 2.5rem; margin-bottom: 2rem; color: #333; text-align: center; }
-    .edit-menu-section h3 { font-size: 1.75rem; margin-bottom: 1rem; color: #333; }
-    .edit-menu-section p { font-size: 1rem; color: #666; margin-bottom: 0.5rem; }
-    .edit-menu-section img { max-width: 200px; border-radius: 10px; margin-top: 0.5rem; }
-    .edit-menu-section form { display: flex; flex-direction: column; gap: 1rem; }
-    .edit-menu-section input[type="text"], .edit-menu-section input[type="number"], .edit-menu-section input[type="file"] {
-      width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem;
-    }
-    .edit-menu-section input:focus { border-color: #ff6b6b; outline: none; }
-    .edit-menu-section .category { background: #f7fafc; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; }
-    .edit-menu-section .items { margin: 0.5rem 0; }
-    .edit-menu-section .item { background: #edf2f7; padding: 0.5rem; border-radius: 5px; margin-bottom: 0.5rem; }
-    .edit-menu-section button[type="button"], .edit-menu-section button[type="submit"] {
-      background: #ff6b6b; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.3s ease;
-    }
-    .edit-menu-section button[type="button"]:hover, .edit-menu-section button[type="submit"]:hover { background: #ff8787; }
-    footer { background: #2d3748; color: white; padding: 2rem 1rem; text-align: center; }
-    .footer-content { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
-    .social-links a { color: white; margin: 0 0.5rem; font-size: 1.5rem; }
-    .contact-info p { margin: 0.5rem 0; }
-    footer p { margin-top: 1rem; font-size: 0.9rem; }
-    footer a { color: #a0aec0; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-    .logout-dialog { background: transparent; border: none; }
-    .logout-dialog article { background: #f9f9f9; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-width: 400px; margin: 0 auto; position: relative; }
-    .logout-dialog .close::after { content: none; }
-    .logout-dialog h2 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
-    .logout-dialog button { width: 100%; background: #ff6b6b; color: white; border: none; padding: 1rem; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.3s ease; }
-    .logout-dialog button:hover { background: #ff8787; }
-    .logout-dialog .close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: #333; text-decoration: none; cursor: pointer; }
-    #support-modal { background: transparent; border: none; }
-    #support-modal article { background: #f9f9f9; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-width: 400px; margin: 0 auto; position: relative; }
-    #support-modal .close::after { content: none; }
-    #support-modal p { font-size: 1rem; color: #333; }
-    #support-modal a { color: #ff6b6b; }
-    #support-modal .close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: #333; text-decoration: none; cursor: pointer; }
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2rem; }
-      .user-icon { font-size: 1.2rem; top: 0.5rem; right: 0.5rem; }
-      nav { flex-direction: column; gap: 0.5rem; }
-      nav a, nav button { font-size: 1rem; padding: 0.5rem; }
-      .edit-menu-section { padding: 1.5rem; }
-    }
-  </style>
 </head>
 <body>
   <!-- Hero Section -->
   <section class="hero">
     <a href="#" id="user-icon" class="user-icon"><i class="fas fa-user"></i></a>
-    <h1>Edit Menu</h1>
     <nav>
       <a href="/my-menus">My Menus</a>
       <a href="/create-menu">Create Menu</a>
@@ -89,7 +33,7 @@
   <!-- Edit Menu Section -->
   <section id="edit-menu">
     <div class="edit-menu-section">
-      <h1>Edit <%= menu.title %></h1>
+      <h1><%= menu.title %></h1>
       <% if (currentUser && currentUser.restaurantName) { %>
         <p>Restaurant: <%= currentUser.restaurantName %></p>
       <% } %>
@@ -116,14 +60,14 @@
                     <input type="text" name="itemName[<%= catIndex %>][]" value="<%= item.name %>" placeholder="Item Name" required>
                     <input type="number" name="price[<%= catIndex %>][]" value="<%= item.price %>" placeholder="Price" step="0.01" required>
                     <% if (item.image) { %>
-                      <p>Current: <img src="<%= item.image %>" alt="Item Image" style="max-width: 100px;"></p>
+                      <p><img src="<%= item.image %>" alt="Item Image" style="max-width: 100px;"></p>
                       <input type="hidden" name="existingItemImage[<%= catIndex %>][]" value="<%= item.image %>">
                     <% } %>
                     <input type="file" name="itemImage[<%= catIndex %>][<%= itemIndex %>]" accept="image/*">
                   </div>
                 <% }) %>
               </div>
-              <button type="button" onclick="addItem(this)">Add Item</button>
+              <button type="button" onclick="addItem(this)">add</button>
             </div>
           <% }) %>
         </div>
@@ -160,65 +104,72 @@
 
   <!-- JavaScript -->
   <script>
-    let categoryCount = <%= menu.categories.length %>;
+  let categoryCount = <%= menu.categories.length %>;
 
-    function addCategory() {
-      const div = document.createElement('div');
-      div.className = 'category';
-      div.innerHTML = `
-        <input type="text" name="categoryName[]" placeholder="Category Name (e.g., Drinks)" required>
-        <div class="items">
-          <div class="item">
-            <input type="text" name="itemName[${categoryCount}][]" placeholder="Item Name" required>
-            <input type="number" name="price[${categoryCount}][]" placeholder="Price" step="0.01" required>
-            <input type="file" name="itemImage[${categoryCount}][0]" accept="image/*">
-          </div>
+  function addCategory() {
+    const div = document.createElement('div');
+    div.className = 'category';
+    div.innerHTML = `
+      <input type="text" name="categoryName[]" placeholder="Category Name (e.g., Drinks)" required>
+      <div class="items">
+        <div class="item">
+          <input type="text" name="itemName[${categoryCount}][]" placeholder="Item Name" required>
+          <input type="number" name="price[${categoryCount}][]" placeholder="Price" step="0.01" required>
+          <input type="file" name="itemImage[${categoryCount}][0]" accept="image/*">
+          <button type="button" onclick="removeItem(this)">remove</button>
         </div>
-        <button type="button" onclick="addItem(this)">Add Item</button>
-      `;
-      document.getElementById('categories').appendChild(div);
-      categoryCount++;
-    }
+      </div>
+      <button type="button" onclick="addItem(this)">add</button>
+    `;
+    document.getElementById('categories').appendChild(div);
+    categoryCount++;
+  }
 
-    function addItem(button) {
-      const categoryIndex = Array.from(document.querySelectorAll('.category')).indexOf(button.parentElement);
-      const div = document.createElement('div');
-      div.className = 'item';
-      const itemCount = button.previousElementSibling.querySelectorAll('.item').length;
-      div.innerHTML = `
-        <input type="text" name="itemName[${categoryIndex}][]" placeholder="Item Name" required>
-        <input type="number" name="price[${categoryIndex}][]" placeholder="Price" step="0.01" required>
-        <input type="file" name="itemImage[${categoryIndex}][${itemCount}]" accept="image/*">
-      `;
-      button.previousElementSibling.appendChild(div);
-    }
+  function addItem(button) {
+    const categoryIndex = Array.from(document.querySelectorAll('.category')).indexOf(button.parentElement);
+    const div = document.createElement('div');
+    div.className = 'item';
+    const itemCount = button.previousElementSibling.querySelectorAll('.item').length;
+    div.innerHTML = `
+      <input type="text" name="itemName[${categoryIndex}][]" placeholder="Item Name" required>
+      <input type="number" name="price[${categoryIndex}][]" placeholder="Price" step="0.01" required>
+      <input type="file" name="itemImage[${categoryIndex}][${itemCount}]" accept="image/*">
+      <button type="button" onclick="removeItem(this)">remove</button>
+    `;
+    button.previousElementSibling.appendChild(div);
+  }
 
-    const userIcon = document.getElementById('user-icon');
-    const logoutModal = document.getElementById('logout-modal');
-    const logoutCloseBtn = document.querySelector('#logout-modal .close');
-    const supportLink = document.getElementById('support-link');
-    const supportModal = document.getElementById('support-modal');
-    const supportCloseBtn = document.querySelector('#support-modal .close');
+  function removeItem(button) {
+    const item = button.parentElement;
+    item.remove(); // Removes the item div from the DOM
+  }
 
-    userIcon.addEventListener('click', (e) => {
-      e.preventDefault();
-      logoutModal.showModal();
-    });
+  const userIcon = document.getElementById('user-icon');
+  const logoutModal = document.getElementById('logout-modal');
+  const logoutCloseBtn = document.querySelector('#logout-modal .close');
+  const supportLink = document.getElementById('support-link');
+  const supportModal = document.getElementById('support-modal');
+  const supportCloseBtn = document.querySelector('#support-modal .close');
 
-    logoutCloseBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      logoutModal.close();
-    });
+  userIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    logoutModal.showModal();
+  });
 
-    supportLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      supportModal.showModal();
-    });
+  logoutCloseBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    logoutModal.close();
+  });
 
-    supportCloseBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      supportModal.close();
-    });
-  </script>
+  supportLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    supportModal.showModal();
+  });
+
+  supportCloseBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    supportModal.close();
+  });
+</script>
 </body>
 </html>

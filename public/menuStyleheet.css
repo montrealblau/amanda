@@ -1,0 +1,309 @@
+/* === Base Styling === */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Hero Section === */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #008080, #ffffff);
+  padding: 2rem 1rem; /* Reduced padding for tidiness */
+  text-align: center;
+  color: #333;
+}
+.hero h1 {
+  font-size: 2rem; /* Smaller for mobile-friendliness */
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: none; /* Hidden since h2 is used in #menus */
+}
+.user-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #333;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+nav a,
+nav form {
+  display: inline-block;
+}
+nav a,
+nav button {
+  color: #333;
+  font-size: 1rem; /* Slightly smaller for clarity */
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  transition: background 0.3s ease, color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+nav a:hover,
+nav button:hover {
+  background: #ff6b6b;
+  color: white;
+}
+
+/* === Menus Section === */
+#menus {
+  padding: 1.5rem 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+h2 {
+  font-size: 1.75rem; /* Slightly smaller for balance */
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+#menus p {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin: 0 0 1rem;
+}
+#menus img {
+  max-width: 150px; /* Smaller for tidiness */
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* === Menu Grid === */
+.menu-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Increased gap for clarity */
+}
+.menu-grid article {
+  background: white;
+  padding: 1.5rem; /* More padding for breathing room */
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.menu-grid h3 {
+  font-size: 1.5rem; /* Larger for prominence */
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+.menu-grid p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 1rem;
+}
+
+/* === Actions === */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem; /* Increased gap for readability */
+  margin: 1rem 0;
+  align-items: center;
+}
+.actions a,
+.actions button,
+.actions select {
+  background: #008080;
+  color: white;
+  padding: 0.6rem 1.2rem; /* Slightly larger for usability */
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.actions a:hover,
+.actions button:hover {
+  background: #006666;
+}
+.actions select {
+  background: #e2e8f0;
+  color: #333;
+  padding: 0.6rem;
+}
+.actions select:hover {
+  background: #cbd5e0;
+}
+.actions label {
+  font-size: 1rem;
+  color: #333;
+  margin-right: 0.75rem;
+}
+
+/* === Delete Action === */
+.actions.delete-action {
+  justify-content: flex-end; /* Right-align delete button */
+  margin-top: 1rem; /* Space above delete */
+}
+.actions.delete-action button {
+  background: #e53e3e; /* Red for delete, consistent with edit-menu */
+  padding: 0.6rem 1.2rem;
+}
+.actions.delete-action button:hover {
+  background: #c53030;
+}
+
+/* === Tables List === */
+.tables-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.tables-list li {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.tables-list a {
+  color: #ff6b6b;
+  text-decoration: none;
+}
+.tables-list a:hover {
+  text-decoration: underline;
+}
+
+/* === Create Tables Form === */
+.actions form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.actions input[type="number"] {
+  width: 120px; /* Slightly wider for usability */
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* === Footer and Modals (unchanged) === */
+footer {
+  background: #2d3748;
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.social-links a {
+  color: white;
+  margin: 0 0.5rem;
+  font-size: 1.5rem;
+}
+.contact-info p {
+  margin: 0.5rem 0;
+}
+footer p {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+footer a {
+  color: #a0aec0;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+.logout-dialog,
+#support-modal {
+  background: transparent;
+  border: none;
+}
+.logout-dialog article,
+#support-modal article {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+.logout-dialog .close::after,
+#support-modal .close::after {
+  content: none;
+}
+.logout-dialog h2,
+#support-modal h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.logout-dialog button {
+  width: 100%;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.logout-dialog button:hover {
+  background: #ff8787;
+}
+.logout-dialog .close,
+#support-modal .close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+#support-modal p {
+  font-size: 1rem;
+  color: #333;
+}
+#support-modal a {
+  color: #ff6b6b;
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 600px) {
+  .hero { padding: 1.5rem 0.5rem; }
+  .user-icon { font-size: 1.2rem; top: 0.5rem; right: 0.5rem; }
+  nav { flex-direction: column; gap: 0.5rem; }
+  nav a, nav button { font-size: 0.9rem; padding: 0.5rem; }
+  #menus { padding: 1rem 0.5rem; }
+  h2 { font-size: 1.5rem; }
+  .menu-grid article { padding: 1rem; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .actions a, .actions button, .actions select { width: 100%; text-align: center; }
+  .tables-list li { flex-direction: column; align-items: flex-start; }
+}

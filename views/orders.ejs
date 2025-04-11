@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/menuStyleheet.css">
+  <style>
+    #orders { padding: 4rem 1rem; background: #f9f9f9; text-align: center; }
+    #orders h2 { font-size: 2.5rem; margin-bottom: 2rem; color: #333; }
+    .orders-section { max-width: 800px; margin: 0 auto 3rem; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: left; }
+    .orders-section h3 { font-size: 1.75rem; margin-bottom: 1rem; color: #333; }
+    .orders-section p { font-size: 1rem; color: #666; margin-bottom: 0.5rem; }
+    .order-card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; }
+    .order-card p { margin: 0.5rem 0; }
+    .order-card .actions { display: flex; gap: 1rem; margin-top: 1rem; }
+    .order-card button { background: #ff6b6b; color: white; border: none; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.3s ease; }
+    .order-card button:hover { background: #ff8787; }
+    .order-card button:disabled { background: #ccc; cursor: not-allowed; }
+
+      .orders-section { padding: 1.5rem; }
+      .order-card { padding: 1rem; }
+      .order-card .actions { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <a href="#" id="user-icon" class="user-icon"><i class="fas fa-user"></i></a>
+    <nav>
+      <a href="/my-menus">My Menus</a>
+      <a href="/orders" style="background: #008080; color: white;">Orders</a>
+      <a href="/profile">Profile</a>
+    </nav>
+  </section>
+
+  <!-- Logout Modal -->
+  <dialog id="logout-modal" class="logout-dialog">
+    <article>
+      <a href="#" class="close">×</a>
+      <h2>Logout</h2>
+      <form action="/logout" method="POST">
+        <button type="submit">Confirm Logout</button>
+      </form>
+    </article>
+  </dialog>
+
+  <!-- Orders Section -->
+  <section id="orders">
+    <div class="orders-section">
+      <h3>Orders</h3>
+      <% if (orders && orders.length > 0) { %>
+        <% orders.forEach(order => { %>
+          <div class="order-card">
+            <p>Table: <%= order.tableId ? order.tableId.number : 'Unknown' %></p>
+            <p>Items: <%= order.items.map(item => item.name).join(', ') %></p>
+            <p>Total: $<%= order.items.reduce((sum, item) => sum + item.price, 0).toFixed(2) %></p>
+            <p>Time: <%= order.createdAt.toLocaleString() %></p>
+            <p>Status: <%= order.status || 'Pending' %></p>
+            <div class="actions">
+              <button onclick="updateOrderStatus('<%= order._id %>', 'viewed')" <%= order.status !== 'pending' ? 'disabled' : '' %>>Order Viewed by Human</button>
+              <button onclick="updateOrderStatus('<%= order._id %>', 'preparing')" <%= order.status === 'delivered' || order.status === 'preparing' ? 'disabled' : '' %>>Order Being Prepared</button>
+              <button onclick="updateOrderStatus('<%= order._id %>', 'delivered')" <%= order.status === 'delivered' ? 'disabled' : '' %>>Order Delivered to Table</button>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No orders yet.</p>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <div class="contact-info">
+        <p><i class="fas fa-envelope"></i> info@qr-table.com</p>
+        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+      </div>
+    </div>
+    <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
+  </footer>
+
+  <!-- Support Modal -->
+  <dialog id="support-modal">
+    <article>
+      <a href="#" class="close">×</a>
+      <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
+    </article>
+  </dialog>
+
+  <!-- JavaScript -->
+  <script>
+    const userIcon = document.getElementById('user-icon');
+    const logoutModal = document.getElementById('logout-modal');
+    const logoutCloseBtn = document.querySelector('#logout-modal .close');
+    const supportLink = document.getElementById('support-link');
+    const supportModal = document.getElementById('support-modal');
+    const supportCloseBtn = document.querySelector('#support-modal .close');
+
+    userIcon.addEventListener('click', (e) => {
+      e.preventDefault();
+      logoutModal.showModal();
+    });
+
+    logoutCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      logoutModal.close();
+    });
+
+    supportLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.showModal();
+    });
+
+    supportCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.close();
+    });
+
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const response = await fetch(`/orders/${orderId}/status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status })
+        });
+        if (response.ok) {
+          location.reload(); // Refresh page to update UI
+        } else {
+          alert('Failed to update order status.');
+        }
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        alert('An error occurred while updating the order status.');
+      }
+    }
+  </script>
+</body>
+</html>

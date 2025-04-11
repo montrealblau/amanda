@@ -69,6 +69,7 @@ const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
 });
+
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -85,6 +86,8 @@ const upload = multer({
 const uploadProfile = multer({ storage }).fields([
   { name: 'restaurantPhoto', maxCount: 1 }
 ]);
+
+
 
 const uploadCSV = multer({ storage }).single('menuFile'); // For /import-menu
 
@@ -135,16 +138,6 @@ app.get('/admin-dashboard', isAdmin, async (req, res) => {
   }
 });
 
-app.post('/logout', (req, res) => {
-  console.log('POST /logout route hit'); // Debug
-  req.logout((err) => {
-    if (err) {
-      console.error('Logout error:', err);
-      return res.status(500).send('An error occurred during logout.');
-    }
-    res.redirect('/');
-  });
-});
 
 
 app.post('/submit-request', async (req, res) => {
@@ -165,20 +158,18 @@ app.post('/submit-request', async (req, res) => {
     res.status(500).send('An error occurred while submitting your request.');
   }
 });
-
 app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
   try {
     if (req.user.role === 'admin') {
       res.redirect('/admin-dashboard');
     } else {
-      res.redirect('/my-menus');
+      res.redirect('/orders'); // Changed from '/my-menus'
     }
   } catch (err) {
     console.error('Login redirect error:', err);
     res.status(500).send('An error occurred after login.');
   }
 });
-
 app.post('/register', async (req, res) => {
   try {
     const newUser = new User({ username: req.body.username });
@@ -195,7 +186,7 @@ app.post('/register', async (req, res) => {
 app.post('/create-menu', isLoggedIn, upload, async (req, res) => {
   try {
     const uniqueLink = require('uuid').v4();
-    const { title, categoryName, itemName = {}, price = {} } = req.body;
+    const { title, categoryName, itemName = {}, itemIngredients = {}, price = {} } = req.body;
     const uploadedFiles = req.files || [];
 
     const menu = new Menu({
@@ -210,6 +201,7 @@ app.post('/create-menu', isLoggedIn, upload, async (req, res) => {
       names.forEach((name, catIndex) => {
         const items = [];
         const itemNames = Array.isArray(itemName[catIndex]) ? itemName[catIndex] : (itemName[catIndex] ? [itemName[catIndex]] : []);
+        const itemIngreds = Array.isArray(itemIngredients[catIndex]) ? itemIngredients[catIndex] : (itemIngredients[catIndex] ? [itemIngredients[catIndex]] : []);
         const itemPrices = Array.isArray(price[catIndex]) ? price[catIndex] : (price[catIndex] ? [price[catIndex]] : []);
 
         itemNames.forEach((name, itemIndex) => {
@@ -219,7 +211,7 @@ app.post('/create-menu', isLoggedIn, upload, async (req, res) => {
             const uploadedImage = uploadedImageFile ? `/uploads/${uploadedImageFile.filename}` : null;
             items.push({
               name,
-              ingredients: '',
+              ingredients: itemIngreds[itemIndex] || '',
               allergens: '',
               price: parseFloat(itemPrices[itemIndex]) || 0,
               image: uploadedImage
@@ -247,8 +239,6 @@ app.post('/create-menu', isLoggedIn, upload, async (req, res) => {
 
 app.post('/edit-menu/:id', isLoggedIn, upload, async (req, res) => {
   try {
-    console.log('Uploaded files:', req.files);
-    console.log('Request body:', req.body);
 
     const menu = await Menu.findById(req.params.id);
     if (!menu || menu.owner.toString() !== req.user._id.toString()) {
@@ -339,10 +329,14 @@ app.post('/delete-profile', isLoggedIn, async (req, res) => {
 app.get('/menu/:link', async (req, res) => {
   try {
     const menu = await Menu.findOne({ link: req.params.link }).populate('owner');
-    console.log(menu);
     if (!menu) return res.status(404).send('Menu not found');
     const tableId = req.query.table || '';
-    res.render('menu-public', { menu, tableId });
+    let tableNumber = 'Unknown';
+    if (tableId) {
+      const table = await Table.findById(tableId);
+      tableNumber = table ? table.number : 'Unknown';
+    }
+    res.render('menu-public', { menu, tableId, tableNumber });
   } catch (err) {
     console.error('Error fetching public menu:', err);
     res.status(500).send('An error occurred while loading the menu.');
@@ -418,27 +412,35 @@ app.post('/import-menu', isLoggedIn, uploadCSV, async (req, res) => {
 
 app.post('/create-tables/:menuId', isLoggedIn, async (req, res) => {
   try {
+    const { tableCount } = req.body;
     const menu = await Menu.findById(req.params.menuId);
     if (!menu || menu.owner.toString() !== req.user._id.toString()) {
       return res.status(403).send('Unauthorized');
     }
-    const { tableCount } = req.body;
-
-    // Get the current number of tables for this menu
-    const existingTables = await Table.find({ menu: menu._id });
-    const currentCount = existingTables.length;
-    
     const tables = [];
-    for (let i = 1; i <= tableCount; i++) {
-      const qrLink = uuidv4();
-      // Start numbering from currentCount + i
-      tables.push({ menu: menu._id, number: `Table ${currentCount + i}`, qrLink });
+    const existingTables = await Table.find({ menu: menu._id });
+    const startNum = existingTables.length + 1;
+
+    for (let i = 0; i < tableCount; i++) {
+      const table = new Table({
+        menu: menu._id,
+        number: `${startNum + i}`,
+        qrLink: '' // Placeholder, updated after save
+      });
+      tables.push(table);
     }
-    await Table.insertMany(tables);
+
+    const savedTables = await Table.insertMany(tables);
+    // Update qrLink with actual _id after saving
+    for (const table of savedTables) {
+      table.qrLink = `/menu/${menu.link}?table=${table._id}`;
+      await table.save();
+    }
+
     res.redirect('/my-menus');
   } catch (err) {
-    console.error('Table creation error:', err);
-    res.status(500).send('Failed to create tables');
+    console.error('Error creating tables:', err);
+    res.status(500).send('An error occurred while creating tables.');
   }
 });
 
@@ -504,14 +506,51 @@ app.post('/table/:qrLink/order', async (req, res) => {
 
 
 app.post('/orders', async (req, res) => {
-  const { menuId, items, tableId } = req.body;
   try {
-    const order = new Order({ menuId, tableId, items });
+    const { menuId, items, tableId } = req.body;
+    if (!menuId || !items || items.length === 0) {
+      return res.status(400).send('Menu ID and items are required');
+    }
+    const order = new Order({
+      menuId,
+      items,
+      tableId: tableId || null, // Allow null if tableId is missing
+      createdAt: new Date()
+    });
     await order.save();
     res.sendStatus(201);
   } catch (error) {
-    console.error(error);
+    console.error('Error saving order:', error);
     res.status(500).send('Failed to save order');
+  }
+});
+
+app.post('/orders/:orderId/status', isLoggedIn, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findById(req.params.orderId).populate('menuId');
+    if (!order || order.menuId.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).send('Unauthorized');
+    }
+    order.status = status;
+    await order.save();
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('Error updating order status:', err);
+    res.status(500).send('An error occurred while updating the order status.');
+  }
+});
+
+
+app.get('/orders', isLoggedIn, async (req, res) => {
+  try {
+    const orders = await Order.find({ menuId: { $in: await Menu.find({ owner: req.user._id }).select('_id') } })
+      .populate('tableId', 'number')
+      .sort({ createdAt: -1 });
+    res.render('orders', { currentUser: req.user, orders });
+  } catch (err) {
+    console.error('Error fetching orders:', err);
+    res.status(500).send('An error occurred while loading orders.');
   }
 });
 
@@ -522,5 +561,42 @@ app.get('/profile', isLoggedIn, async (req, res) => {
 });
 
 
+app.post('/profile', isLoggedIn, uploadProfile, async (req, res) => {
+  try {
+    const { restaurantName, restaurantAddress } = req.body;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Update fields
+    user.restaurantName = restaurantName !== undefined ? restaurantName : user.restaurantName;
+    user.restaurantAddress = restaurantAddress !== undefined ? restaurantAddress : user.restaurantAddress;
+
+    // Handle file upload (req.files is an object with field names)
+    if (req.files && req.files['restaurantPhoto']) {
+      user.restaurantPhoto = `/uploads/${req.files['restaurantPhoto'][0].filename}`;
+    }
+
+    await user.save();
+    console.log('Profile updated:', user);
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    res.status(500).send('An error occurred while updating your profile.');
+  }
+});
 
 
+
+app.post('/logout', (req, res) => {
+  console.log('POST /logout route hit'); // Debug
+  req.logout((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).send('An error occurred during logout.');
+    }
+    res.redirect('/');
+  });
+});
