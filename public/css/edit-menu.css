@@ -1,0 +1,441 @@
+/* Edit Menu Specific Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav a,
+  nav form {
+    display: inline-block;
+  }
+  nav a,
+  nav button {
+    color: #333;
+    font-size: 1rem; /* Slightly smaller for clarity */
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    transition: background 0.3s ease, color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  nav a:hover,
+  nav button:hover {
+    background: #ff6b6b;
+    color: white;
+  }
+  .user-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #333;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.edit-menu-hero { 
+  position: relative; 
+  background: linear-gradient(135deg, #008080, #ffffff); 
+  padding: 2rem 1rem; 
+  text-align: center; 
+  color: #333; 
+}
+
+.edit-menu-hero h1 { 
+  font-size: 3rem; 
+  font-weight: 700; 
+  margin-bottom: 1rem; 
+}
+
+.edit-menu-hero p { 
+  font-size: 1.25rem; 
+  margin-bottom: 1rem; 
+}
+
+.edit-menu-hero img { 
+  max-width: 300px; 
+  border-radius: 10px; 
+  margin-top: 1rem; 
+}
+
+#edit-menu { 
+  padding: 4rem 1rem; 
+  background: #f9f9f9; 
+  text-align: center; 
+}
+
+.menu-image { 
+  text-align: center; 
+  margin-bottom: 2rem; 
+}
+
+.menu-image img { 
+  max-width: 300px; 
+  border-radius: 10px; 
+}
+
+.accordion { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+}
+
+.category-section { 
+  margin-bottom: 1rem; 
+  background: white; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  overflow: hidden; 
+}
+
+.category-header { 
+  padding: 1.5rem; 
+  cursor: pointer; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  transition: background 0.3s ease; 
+}
+
+.category-header:hover { 
+  background: #f1f1f1; 
+}
+
+.category-header h2 { 
+  font-size: 1.75rem; 
+  font-weight: 600; 
+  margin: 0; 
+  color: #333; 
+}
+
+.category-header .toggle-icon { 
+  font-size: 1.5rem; 
+  color: #ff6b6b; 
+  transition: transform 0.3s ease; 
+}
+
+.category-header.active .toggle-icon { 
+  transform: rotate(180deg); 
+}
+
+.menu-items { 
+  display: none; 
+  padding: 1.5rem; 
+  background: #f9f9f9; 
+}
+
+.menu-items.active { 
+  display: block; 
+}
+
+.menu-card { 
+  background: white; 
+  padding: 1.5rem; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-bottom: 1rem; 
+  display: flex; 
+  align-items: center; 
+  gap: 1rem; 
+  transition: transform 0.3s ease; 
+}
+
+.menu-card:hover { 
+  transform: translateY(-5px); 
+}
+
+.menu-card .text-content { 
+  flex: 0 1 60%; 
+  text-align: left; 
+}
+
+.menu-card h3 { 
+  font-size: 1.5rem; 
+  margin-bottom: 0.5rem; 
+  color: #333; 
+}
+
+.menu-card p { 
+  font-size: 1rem; 
+  color: #666; 
+  margin-bottom: 0.5rem; 
+}
+
+.menu-card img { 
+  max-width: 150px; 
+  height: auto; 
+  border-radius: 10px; 
+  order: 2; 
+  flex-shrink: 0; 
+}
+
+.menu-card .price { 
+  font-weight: 600; 
+  color: #ff6b6b; 
+}
+
+.menu-card .allergens { 
+  color: #e53e3e; 
+  font-style: italic; 
+}
+
+.menu-card button { 
+  background: #ff6b6b; 
+  color: white; 
+  border: none; 
+  padding: 0.5rem 1rem; 
+  border-radius: 50px; 
+  font-size: 1rem; 
+  cursor: pointer; 
+  transition: background 0.3s ease; 
+}
+
+.menu-card button:hover { 
+  background: #ff8787; 
+}
+
+footer { 
+  background: #2d3748; 
+  color: white; 
+  padding: 2rem 1rem; 
+  text-align: center; 
+}
+
+.footer-content { 
+  display: flex; 
+  justify-content: space-around; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  margin-bottom: 1rem; 
+}
+
+.social-links a { 
+  color: white; 
+  margin: 0 0.5rem; 
+  font-size: 1.5rem; 
+}
+
+.contact-info p { 
+  margin: 0.5rem 0; 
+}
+
+footer p { 
+  margin-top: 1rem; 
+  font-size: 0.9rem; 
+}
+
+footer a { 
+  color: #a0aec0; 
+  text-decoration: none; 
+}
+
+footer a:hover { 
+  text-decoration: underline; 
+}
+
+#support-modal { 
+  background: transparent; 
+  border: none; 
+}
+
+#support-modal article { 
+  background: #f9f9f9; 
+  padding: 2rem; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  max-width: 400px; 
+  margin: 0 auto; 
+  position: relative; 
+}
+
+#support-modal .close::after { 
+  content: none; 
+}
+
+#support-modal p { 
+  font-size: 1rem; 
+  color: #333; 
+}
+
+#support-modal a { 
+  color: #ff6b6b; 
+}
+
+#support-modal .close { 
+  position: absolute; 
+  top: 1rem; 
+  right: 1rem; 
+  font-size: 1.5rem; 
+  color: #333; 
+  text-decoration: none; 
+  cursor: pointer; 
+}
+
+/* Edit Menu Specific Styles */
+.edit-form { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+}
+
+.edit-form input[type="text"], 
+.edit-form input[type="number"] { 
+  width: 100%; 
+  padding: 0.75rem; 
+  margin-bottom: 1rem; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  font-size: 1rem; 
+}
+
+.edit-form input[type="file"] { 
+  margin-bottom: 1rem; 
+}
+
+.edit-form button { 
+  background: #008080; 
+  color: white; 
+  padding: 0.6rem 1.2rem; 
+  border: none; 
+  border-radius: 25px; 
+  font-size: 1rem; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: background 0.3s ease; 
+  margin-right: 0.5rem;
+}
+
+.edit-form button:hover { 
+  background: #006666; 
+}
+
+.edit-form button.remove-btn { 
+  background: #ff6b6b; 
+}
+
+.edit-form button.remove-btn:hover { 
+  background: #ff5252; 
+}
+
+.edit-form .item-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.edit-form .category-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.edit-form .form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.edit-form .form-actions button[type="submit"] {
+  background: #008080;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+}
+
+.edit-form .form-actions button[type="submit"]:hover {
+  background: #006666;
+}
+
+.edit-form .item-image-preview {
+  margin: 1rem 0;
+}
+
+.edit-form .item-image-preview img {
+  max-width: 150px;
+  border-radius: 10px;
+}
+
+.edit-form .menu-image-preview {
+  margin: 1rem 0;
+}
+
+.edit-form .menu-image-preview img {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.edit-form .ingredients-field {
+  margin-bottom: 1rem;
+}
+
+.edit-form .ingredients-field textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.edit-form .allergens-field {
+  margin-bottom: 1rem;
+}
+
+.edit-form .allergens-field textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  min-height: 60px;
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .edit-menu-hero h1 { 
+    font-size: 2rem; 
+  }
+  .edit-menu-hero p { 
+    font-size: 1rem; 
+  }
+  .edit-menu-hero img { 
+    max-width: 200px; 
+  }
+  .category-header h2 { 
+    font-size: 1.5rem; 
+  }
+  .menu-card { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+  .menu-card .text-content { 
+    flex: 1; 
+  }
+  .menu-card img { 
+    max-width: 120px; 
+    order: 0; 
+    margin-bottom: 1rem; 
+  }
+  .menu-image img { 
+    max-width: 200px; 
+  }
+  .edit-form .item-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .edit-form .item-actions button {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+} 

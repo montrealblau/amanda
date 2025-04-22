@@ -5,12 +5,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="/menu.css">
+  <link rel="stylesheet" href="/css/edit-menu.css">
   <title>Edit Menu</title>
 </head>
 <body>
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="edit-menu-hero">
     <a href="#" id="user-icon" class="user-icon"><i class="fas fa-user"></i></a>
     <nav>
       <a href="/my-menus">My Menus</a>
@@ -32,49 +32,77 @@
 
   <!-- Edit Menu Section -->
   <section id="edit-menu">
-    <div class="edit-menu-section">
+    <div class="edit-menu-hero">
       <h1><%= menu.title %></h1>
       <% if (currentUser && currentUser.restaurantName) { %>
-        <p>Restaurant: <%= currentUser.restaurantName %></p>
+        <p><%= currentUser.restaurantName %></p>
       <% } %>
       <% if (currentUser && currentUser.restaurantPhoto) { %>
-        <p><img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo"></p>
+        <img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo">
       <% } %>
-      <form action="/edit-menu/<%= menu._id %>" method="POST" enctype="multipart/form-data">
+    </div>
+    
+    <form action="/edit-menu/<%= menu._id %>" method="POST" enctype="multipart/form-data" class="edit-form">
+      <div class="menu-image">
         <input type="text" name="title" value="<%= menu.title %>" placeholder="Menu Title" required>
         <input type="file" name="image" accept="image/*">
         <% if (menu.image) { %>
-          <div class="menu-image">
-            <p>Current Image: <img src="<%= menu.image %>" alt="Current Image" style="max-width: 200px;"></p>
+          <div class="menu-image-preview">
+            <p>Current Menu Image:</p>
+            <img src="<%= menu.image %>" alt="Current Menu Image">
             <input type="hidden" name="existingMenuImage" value="<%= menu.image %>">
           </div>
         <% } %>
-        <h3>Categories</h3>
-        <div id="categories">
-          <% menu.categories.forEach((category, catIndex) => { %>
-            <div class="category">
+      </div>
+      
+      <div class="accordion">
+        <% menu.categories.forEach((category, catIndex) => { %>
+          <div class="category-section">
+            <div class="category-header">
               <input type="text" name="categoryName[]" value="<%= category.name %>" placeholder="Category Name" required>
-              <div class="items">
-                <% category.items.forEach((item, itemIndex) => { %>
-                  <div class="item">
+              <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="menu-items">
+              <% category.items.forEach((item, itemIndex) => { %>
+                <div class="menu-card">
+                  <div class="text-content">
                     <input type="text" name="itemName[<%= catIndex %>][]" value="<%= item.name %>" placeholder="Item Name" required>
+                    <div class="ingredients-field">
+                      <textarea name="itemIngredients[<%= catIndex %>][]" placeholder="Ingredients"><%= item.ingredients || '' %></textarea>
+                    </div>
+                    <div class="allergens-field">
+                      <textarea name="itemAllergens[<%= catIndex %>][]" placeholder="Allergens"><%= item.allergens || '' %></textarea>
+                    </div>
                     <input type="number" name="price[<%= catIndex %>][]" value="<%= item.price %>" placeholder="Price" step="0.01" required>
+                    <div class="item-actions">
+                      <button type="button" class="remove-btn" onclick="removeItem(this)">Remove Item</button>
+                    </div>
+                  </div>
+                  <div class="item-image">
                     <% if (item.image) { %>
-                      <p><img src="<%= item.image %>" alt="Item Image" style="max-width: 100px;"></p>
-                      <input type="hidden" name="existingItemImage[<%= catIndex %>][]" value="<%= item.image %>">
+                      <div class="item-image-preview">
+                        <img src="<%= item.image %>" alt="<%= item.name %>">
+                        <input type="hidden" name="existingItemImage[<%= catIndex %>][]" value="<%= item.image %>">
+                      </div>
                     <% } %>
                     <input type="file" name="itemImage[<%= catIndex %>][<%= itemIndex %>]" accept="image/*">
                   </div>
-                <% }) %>
-              </div>
-              <button type="button" onclick="addItem(this)">add</button>
+                </div>
+              <% }) %>
+              <button type="button" onclick="addItem(this)">Add Item to Category</button>
             </div>
-          <% }) %>
-        </div>
-        <button type="button" onclick="addCategory()">Add Category</button>
+          </div>
+        <% }) %>
+      </div>
+      
+      <div class="category-actions">
+        <button type="button" onclick="addCategory()">Add New Category</button>
+      </div>
+      
+      <div class="form-actions">
         <button type="submit">Update Menu</button>
-      </form>
-    </div>
+      </div>
+    </form>
   </section>
 
   <!-- Footer -->
@@ -108,41 +136,89 @@
 
   function addCategory() {
     const div = document.createElement('div');
-    div.className = 'category';
-    div.innerHTML = `
-      <input type="text" name="categoryName[]" placeholder="Category Name (e.g., Drinks)" required>
-      <div class="items">
-        <div class="item">
-          <input type="text" name="itemName[${categoryCount}][]" placeholder="Item Name" required>
-          <input type="number" name="price[${categoryCount}][]" placeholder="Price" step="0.01" required>
-          <input type="file" name="itemImage[${categoryCount}][0]" accept="image/*">
-          <button type="button" onclick="removeItem(this)">remove</button>
-        </div>
-      </div>
-      <button type="button" onclick="addItem(this)">add</button>
-    `;
-    document.getElementById('categories').appendChild(div);
+    div.className = 'category-section';
+    div.innerHTML = 
+      '<div class="category-header">' +
+        '<input type="text" name="categoryName[]" placeholder="Category Name (e.g., Drinks)" required>' +
+        '<i class="fas fa-chevron-down toggle-icon"></i>' +
+      '</div>' +
+      '<div class="menu-items">' +
+        '<div class="menu-card">' +
+          '<div class="text-content">' +
+            '<input type="text" name="itemName[' + categoryCount + '][]" placeholder="Item Name" required>' +
+            '<div class="ingredients-field">' +
+              '<textarea name="itemIngredients[' + categoryCount + '][]" placeholder="Ingredients"></textarea>' +
+            '</div>' +
+            '<div class="allergens-field">' +
+              '<textarea name="itemAllergens[' + categoryCount + '][]" placeholder="Allergens"></textarea>' +
+            '</div>' +
+            '<input type="number" name="price[' + categoryCount + '][]" placeholder="Price" step="0.01" required>' +
+            '<div class="item-actions">' +
+              '<button type="button" class="remove-btn" onclick="removeItem(this)">Remove Item</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="item-image">' +
+            '<input type="file" name="itemImage[' + categoryCount + '][0]" accept="image/*">' +
+          '</div>' +
+        '</div>' +
+        '<button type="button" onclick="addItem(this)">Add Item to Category</button>' +
+      '</div>';
+    document.querySelector('.accordion').appendChild(div);
     categoryCount++;
   }
 
   function addItem(button) {
-    const categoryIndex = Array.from(document.querySelectorAll('.category')).indexOf(button.parentElement);
+    const categorySection = button.closest('.category-section');
+    const categoryIndex = Array.from(document.querySelectorAll('.category-section')).indexOf(categorySection);
+    const menuItems = categorySection.querySelector('.menu-items');
+    const itemCount = menuItems.querySelectorAll('.menu-card').length;
+    
     const div = document.createElement('div');
-    div.className = 'item';
-    const itemCount = button.previousElementSibling.querySelectorAll('.item').length;
-    div.innerHTML = `
-      <input type="text" name="itemName[${categoryIndex}][]" placeholder="Item Name" required>
-      <input type="number" name="price[${categoryIndex}][]" placeholder="Price" step="0.01" required>
-      <input type="file" name="itemImage[${categoryIndex}][${itemCount}]" accept="image/*">
-      <button type="button" onclick="removeItem(this)">remove</button>
-    `;
-    button.previousElementSibling.appendChild(div);
+    div.className = 'menu-card';
+    div.innerHTML = 
+      '<div class="text-content">' +
+        '<input type="text" name="itemName[' + categoryIndex + '][]" placeholder="Item Name" required>' +
+        '<div class="ingredients-field">' +
+          '<textarea name="itemIngredients[' + categoryIndex + '][]" placeholder="Ingredients"></textarea>' +
+        '</div>' +
+        '<div class="allergens-field">' +
+          '<textarea name="itemAllergens[' + categoryIndex + '][]" placeholder="Allergens"></textarea>' +
+        '</div>' +
+        '<input type="number" name="price[' + categoryIndex + '][]" placeholder="Price" step="0.01" required>' +
+        '<div class="item-actions">' +
+          '<button type="button" class="remove-btn" onclick="removeItem(this)">Remove Item</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="item-image">' +
+        '<input type="file" name="itemImage[' + categoryIndex + '][' + itemCount + ']" accept="image/*">' +
+      '</div>';
+    menuItems.insertBefore(div, button);
   }
 
   function removeItem(button) {
-    const item = button.parentElement;
-    item.remove(); // Removes the item div from the DOM
+    const menuCard = button.closest('.menu-card');
+    menuCard.remove();
   }
+
+  // Toggle category sections
+  document.addEventListener('DOMContentLoaded', function() {
+    const categoryHeaders = document.querySelectorAll('.category-header');
+    
+    categoryHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const items = header.nextElementSibling;
+        const isActive = items.classList.contains('active');
+        document.querySelectorAll('.menu-items').forEach(item => {
+          item.classList.remove('active');
+          item.previousElementSibling.classList.remove('active');
+        });
+        if (!isActive) {
+          items.classList.add('active');
+          header.classList.add('active');
+        }
+      });
+    });
+  });
 
   const userIcon = document.getElementById('user-icon');
   const logoutModal = document.getElementById('logout-modal');
