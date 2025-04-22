@@ -31,56 +31,85 @@
 
   <!-- Menus Section -->
 <section id="menus">
-  <% if (currentUser && currentUser.restaurantPhoto) { %>
-    <p><img src="<%= currentUser.restaurantPhoto %>" alt="Restaurant Photo" style="max-width: 200px; border-radius: 10px; margin-bottom: 2rem;"></p>
-  <% } %>
+  
   <div class="menu-grid">
-    <% if (menus.length > 0) { %>
-      <% menus.forEach(menu => { %>
+    
+      
         <article>
-          <h3><%= menu.title %></h3>
-          <p>(<%= menu.categories.map(cat => cat.name).join(', ') %>)</p>
+          <h3>Baudi dzīvo</h3>
+          <p>(Drinks, Kebabi)</p>
           <div class="actions">
-            <a href="/menu/<%= menu.link %>">View Public Link</a>
-            <a href="/edit-menu/<%= menu._id %>">Edit</a>
+            <a href="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85">View Public Link</a>
+            <a href="/edit-menu/67efa5cb5b28412d6c1efbb1">Edit</a>
             <!-- Mode Toggle -->
             <label>Mode:</label>
-            <select onchange="updateMenuMode('<%= menu._id.toString() %>', this.value)">
-              <option value="view-only" <%= menu.mode === 'view-only' ? 'selected' : '' %>>View-only</option>
-              <option value="order" <%= menu.mode === 'order' ? 'selected' : '' %>>Order</option>
+            <select onchange="updateMenuMode('67efa5cb5b28412d6c1efbb1', this.value)">
+              <option value="view-only" >View-only</option>
+              <option value="order" selected>Order</option>
             </select>
           </div>
 
           <!-- List existing tables -->
           <ul class="tables-list">
-            <% tables.filter(t => t.menu.toString() === menu._id.toString()).forEach(table => { %>
+            
               <li>
-                <div class="table-info">
-                  <h4>Table <%= table.number %></h4>
-                  <div class="qr-link-container">
-                    <span class="qr-link-label">QR Link:</span>
-                    <a href="<%= table.qrLink %>" class="qr-link" title="<%= table.qrLink %>">View Menu</a>
-                  </div>
-                </div>
+                1 - QR Link: <a href="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff8">/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff8</a>
                 <div class="qr-code-container">
-                  <img src="" alt="QR Code for Table <%= table.number %>" class="qr-code" data-qrlink="<%= table.qrLink %>">
-                  <button class="download-qr" data-qrlink="<%= table.qrLink %>">Download QR</button>
+                  <img src="" alt="QR Code" class="qr-code" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff8">
+                  <button class="download-qr" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff8">Download QR</button>
                 </div>
                 <div class="actions">
-                  <form action="/delete-table/<%= table._id %>" method="POST">
-                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
+                  <form action="/delete-table/68076272f04cbdf380f99ff8" method="POST">
+                    <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
                   </form>
                 </div>
               </li>
-            <% }) %>
-            <% if (tables.filter(t => t.menu.toString() === menu._id.toString()).length === 0) { %>
-              <li>No tables assigned yet.</li>
-            <% } %>
+            
+              <li>
+                2 - QR Link: <a href="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff9">/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff9</a>
+                <div class="qr-code-container">
+                  <img src="" alt="QR Code" class="qr-code" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff9">
+                  <button class="download-qr" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ff9">Download QR</button>
+                </div>
+                <div class="actions">
+                  <form action="/delete-table/68076272f04cbdf380f99ff9" method="POST">
+                    <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
+                  </form>
+                </div>
+              </li>
+            
+              <li>
+                3 - QR Link: <a href="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ffa">/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ffa</a>
+                <div class="qr-code-container">
+                  <img src="" alt="QR Code" class="qr-code" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ffa">
+                  <button class="download-qr" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=68076272f04cbdf380f99ffa">Download QR</button>
+                </div>
+                <div class="actions">
+                  <form action="/delete-table/68076272f04cbdf380f99ffa" method="POST">
+                    <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
+                  </form>
+                </div>
+              </li>
+            
+              <li>
+                4 - QR Link: <a href="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=680762a9f04cbdf380f9a03b">/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=680762a9f04cbdf380f9a03b</a>
+                <div class="qr-code-container">
+                  <img src="" alt="QR Code" class="qr-code" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=680762a9f04cbdf380f9a03b">
+                  <button class="download-qr" data-qrlink="/menu/e0605452-42d1-4caf-9f06-e9a8c0fced85?table=680762a9f04cbdf380f9a03b">Download QR</button>
+                </div>
+                <div class="actions">
+                  <form action="/delete-table/680762a9f04cbdf380f9a03b" method="POST">
+                    <button type="submit" onclick="return confirm('Are you sure you want to remove this table?');">Remove</button>
+                  </form>
+                </div>
+              </li>
+            
+            
           </ul>
 
           <!-- Add new tables -->
           <div class="actions">
-            <form action="/create-tables/<%= menu._id %>" method="POST">
+            <form action="/create-tables/67efa5cb5b28412d6c1efbb1" method="POST">
               <input type="number" name="tableCount" placeholder="Number of Tables" min="1" required>
               <button type="submit">Add Tables</button>
             </form>
@@ -88,15 +117,13 @@
 
           <!-- Delete button moved here -->
           <div class="actions delete-action">
-            <form action="/delete-menu/<%= menu._id %>" method="POST">
+            <form action="/delete-menu/67efa5cb5b28412d6c1efbb1" method="POST">
               <button type="submit" onclick="return confirm('Are you sure you want to delete this menu?');">Delete</button>
             </form>
           </div>
         </article>
-      <% }) %>
-    <% } else { %>
-      <p>No menus yet.</p>
-    <% } %>
+      
+    
 
     <article>
       <div class="actions">
@@ -185,8 +212,7 @@
       const qrCodeImages = document.querySelectorAll('.qr-code');
       qrCodeImages.forEach(img => {
         const qrLink = img.getAttribute('data-qrlink');
-        // Pass the full QR link to the server
-        fetch(`/generate-qr/${encodeURIComponent(qrLink)}`)
+        fetch(`/generate-qr${qrLink}`)
           .then(response => response.json())
           .then(data => {
             img.src = data.qrCodeDataUrl;
@@ -204,14 +230,10 @@
           const qrImage = document.querySelector(`.qr-code[data-qrlink="${qrLink}"]`);
           
           if (qrImage && qrImage.src) {
-            // Extract table ID from the QR link
-            const tableIdMatch = qrLink.match(/table=([^&]+)/);
-            const tableId = tableIdMatch ? tableIdMatch[1] : 'unknown';
-            
             // Create a temporary link to download the image
             const link = document.createElement('a');
             link.href = qrImage.src;
-            link.download = `qr-code-table-${tableId}.png`;
+            link.download = `qr-code-${qrLink.split('/').pop()}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

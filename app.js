@@ -13,6 +13,7 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const Table = require('./models/table');
 const Order = require('./models/order');
+const QRCode = require('qrcode');
 
 
 
@@ -266,8 +267,8 @@ app.post('/edit-menu/:id', isLoggedIn, upload, async (req, res) => {
             const uploadedImage = uploadedImageFile ? `/uploads/${uploadedImageFile.filename}` : existingImages[itemIndex];
             items.push({
               name,
-              ingredients: '', // Match create-menu; edit-menu doesn’t use these yet
-              allergens: '',   // Match create-menu; edit-menu doesn’t use these yet
+              ingredients: '', // Match create-menu; edit-menu doesn't use these yet
+              allergens: '',   // Match create-menu; edit-menu doesn't use these yet
               price: parseFloat(itemPrices[itemIndex]) || 0,
               image: uploadedImage || null
             });
@@ -378,7 +379,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong on the server.');
 });
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(3001, () => console.log('Server running on http://localhost:3001'));
 
 app.post('/import-menu', isLoggedIn, uploadCSV, async (req, res) => {
   try {
@@ -433,8 +434,9 @@ app.post('/create-tables/:menuId', isLoggedIn, async (req, res) => {
     const savedTables = await Table.insertMany(tables);
     // Update qrLink with actual _id after saving
     for (const table of savedTables) {
-      table.qrLink = `/menu/${menu.link}?table=${table._id}`;
-      await table.save();
+      // Create the QR link with the table parameter
+      const qrLink = `/menu/${menu.link}?table=${table._id}`;
+      await Table.findByIdAndUpdate(table._id, { qrLink });
     }
 
     res.redirect('/my-menus');
@@ -599,4 +601,33 @@ app.post('/logout', (req, res) => {
     }
     res.redirect('/');
   });
+});
+
+// QR Code generation route
+app.get('/generate-qr/:qrLink(*)', async (req, res) => {
+  try {
+    const qrLink = req.params.qrLink;
+    console.log('QR Link received:', qrLink);
+    
+    // Construct the full URL
+    const fullUrl = `${req.protocol}://${req.get('host')}${qrLink}`;
+    
+    console.log('Generating QR code for URL:', fullUrl);
+    
+    // Generate QR code as data URL
+    const qrCodeDataUrl = await QRCode.toDataURL(fullUrl, {
+      errorCorrectionLevel: 'H',
+      margin: 1,
+      width: 300,
+      color: {
+        dark: '#008080',
+        light: '#ffffff'
+      }
+    });
+    
+    res.json({ qrCodeDataUrl });
+  } catch (error) {
+    console.error('Error generating QR code:', error);
+    res.status(500).json({ error: 'Failed to generate QR code' });
+  }
 });

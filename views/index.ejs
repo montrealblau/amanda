@@ -1,134 +1,345 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <!-- Pico CSS CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="/stylesheet.css">
+  <title>QR Menu App - Dining, Redefined</title>
 </head>
 <body>
-  <!-- Hero Section with Auth Icon -->
+  <!-- Hero Section -->
   <section class="hero">
-    <a href="#" id="auth-icon" class="auth-icon"><i class="fas fa-user"></i></a>
-    <h1>Dining, Redefined</h1>
-    <p>Scan QR Codes to Order and Pay Instantly</p>
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1>Dining, <span class="highlight">Redefined</span></h1>
+        <p class="hero-subtitle">Scan QR Codes to Order and Pay Instantly</p>
+        <div class="hero-buttons">
+          <a href="#" id="auth-icon" class="btn btn-primary">Login</a>
+          <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="/images/hero.png" alt="QR Menu App" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22600%22%20height%3D%22400%22%20fill%3D%22%23f0f0f0%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22200%22%20font-family%3D%22Arial%22%20font-size%3D%2224%22%20fill%3D%22%23666%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3EQR%20Menu%20App%3C%2Ftext%3E%3C%2Fsvg%3E'">
+      </div>
+    </div>
   </section>
 
-<!-- Auth Modal -->
- <dialog id="auth-modal" class="auth-dialog">
-  <article>
-    <a href="#" class="close"></a>
-    <div id="login-form">
-      <h2>Login</h2>
-      <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-      </form>
-      <p>Not a member? <a href="#" id="switch-to-register">Register here</a></p>
-    </div>
-    <div id="register-form" style="display: none;">
-      <h2>Register</h2>
-      <form action="/register" method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Register</button>
-      </form>
-      <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
-    </div>
-  </article>
-</dialog>
+  <!-- Auth Modal -->
+  <dialog id="auth-modal" class="auth-dialog">
+    <article>
+      <a href="#" class="close">×</a>
+      <div id="login-form">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+        </form>
+        <p>Not a member? <a href="#" id="switch-to-register">Register here</a></p>
+      </div>
+      <div id="register-form" style="display: none;">
+        <h2>Register</h2>
+        <form action="/register" method="POST">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
+      </div>
+    </article>
+  </dialog>
 
   <!-- Features Section -->
-  <section id="features">
-    <h2>Key Features</h2>
-    <div class="feature-grid">
-      <article>
-        <i class="fas fa-qrcode fa-3x"></i>
-        <h3>Fast QR Scanning</h3>
-        <p>Quick and reliable QR code scanning for seamless ordering.</p>
-      </article>
-      <article>
-        <i class="fas fa-table fa-3x"></i>
-        <h3>Table Management</h3>
-        <p>Efficiently manage table assignments and orders.</p>
-      </article>
-      <article>
-        <i class="fas fa-credit-card fa-3x"></i>
-        <h3>Easy Payments</h3>
-        <p>Secure and convenient payment options for customers.</p>
-      </article>
+  <section id="features" class="features-section">
+    <div class="container">
+      <h2 class="section-title">Key <span class="highlight">Features</span></h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-qrcode"></i>
+          </div>
+          <h3>Fast QR Scanning</h3>
+          <p>Quick and reliable QR code scanning for seamless ordering.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-table"></i>
+          </div>
+          <h3>Table Management</h3>
+          <p>Efficiently manage table assignments and orders.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <h3>Easy Payments</h3>
+          <p>Secure and convenient payment options for customers.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- How It Works Section -->
-  <section id="how-it-works">
-    <h2>How It Works</h2>
-    <div class="steps-grid">
-      <article>
-        <i class="fas fa-qrcode fa-4x"></i>
-        <h3>Scan the Code</h3>
-        <p>Use your phone to scan the QR code at your table.</p>
-      </article>
-      <article>
-        <i class="fas fa-utensils fa-4x"></i>
-        <h3>Order Your Meal</h3>
-        <p>Browse the menu and place your order directly from your device.</p>
-      </article>
-      <article>
-        <i class="fas fa-credit-card fa-4x"></i>
-        <h3>Pay and Go</h3>
-        <p>Pay securely through the app and enjoy your meal.</p>
-      </article>
+  <section id="how-it-works" class="how-it-works-section">
+    <div class="container">
+      <h2 class="section-title">How It <span class="highlight">Works</span></h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-icon">
+            <i class="fas fa-qrcode"></i>
+          </div>
+          <h3>Scan the Code</h3>
+          <p>Use your phone to scan the QR code at your table.</p>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-icon">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <h3>Order Your Meal</h3>
+          <p>Browse the menu and place your order directly from your device.</p>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <h3>Pay and Go</h3>
+          <p>Pay securely through the app and enjoy your meal.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Testimonials Section -->
-  <section id="testimonials">
-    <h2>What Our Customers Say</h2>
-    <div class="testimonial-grid">
-      <article>
-        <p>"Order times dropped by 25%, and customers love the convenience!"</p>
-        <p><strong>Sarah Lee</strong>, Lee’s Bistro</p>
-      </article>
-      <article>
-        <p>"The upselling feature paid for the app in the first month. Highly recommend!"</p>
-        <p><strong>Mark Patel</strong>, Patel’s Grill</p>
-      </article>
-      <article>
-        <p>"Our staff workload decreased, and sales went up—amazing tool!"</p>
-        <p><strong>Emma Chen</strong>, Chen’s Noodle House</p>
-      </article>
+  <section id="testimonials" class="testimonials-section">
+    <div class="container">
+      <h2 class="section-title">What Our <span class="highlight">Customers</span> Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left"></i>
+            <p>"Order times dropped by 25%, and customers love the convenience!"</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="author-info">
+              <p class="author-name"><strong>Sarah Lee</strong></p>
+              <p class="author-title">Lee's Bistro</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left"></i>
+            <p>"The upselling feature paid for the app in the first month. Highly recommend!"</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="author-info">
+              <p class="author-name"><strong>Mark Patel</strong></p>
+              <p class="author-title">Patel's Grill</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left"></i>
+            <p>"Our staff workload decreased, and sales went up—amazing tool!"</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="author-info">
+              <p class="author-name"><strong>Emma Chen</strong></p>
+              <p class="author-title">Chen's Noodle House</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="contact-form">
-    <h2>Contact Us</h2>
-    <p>Have questions? Reach out to us, and we'll get back to you within 24 hours.</p>
-    <form id="order-form" action="/submit-request" method="POST">
-      <input type="text" name="restaurantName" placeholder="Restaurant Name" required>
-      <input type="text" name="contactName" placeholder="Contact Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="tel" name="phone" placeholder="Phone" required>
-      <select name="plan">
-        <option value="basic">Basic</option>
-        <option value="premium">Premium</option>
-      </select>
-      <textarea name="message" placeholder="Message"></textarea>
-      <button type="submit">Submit</button>
-    </form>
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">Choose Your <span class="highlight">Plan</span></h2>
+      <p class="section-subtitle">Select the perfect plan for your restaurant</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3>Freemium</h3>
+            <div class="price">
+              <span class="currency">$</span>
+              <span class="amount">0</span>
+              <span class="period">/month</span>
+            </div>
+          </div>
+          <div class="pricing-features">
+            <ul>
+              <li><i class="fas fa-check"></i> All core features</li>
+              <li><i class="fas fa-check"></i> Up to 1000 orders</li>
+              <li><i class="fas fa-check"></i> Basic menu customization</li>
+              <li><i class="fas fa-check"></i> QR code generation</li>
+              <li><i class="fas fa-check"></i> Table management</li>
+              <li><i class="fas fa-times"></i> Payment processing</li>
+            </ul>
+          </div>
+          <div class="pricing-action">
+            <a href="#" class="btn btn-secondary">Get Started</a>
+          </div>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-header">
+            <h3>Standard</h3>
+            <div class="price">
+              <span class="currency">$</span>
+              <span class="amount">49</span>
+              <span class="period">/month</span>
+            </div>
+          </div>
+          <div class="pricing-features">
+            <ul>
+              <li><i class="fas fa-check"></i> All core features</li>
+              <li><i class="fas fa-check"></i> Unlimited orders</li>
+              <li><i class="fas fa-check"></i> Advanced menu customization</li>
+              <li><i class="fas fa-check"></i> QR code generation</li>
+              <li><i class="fas fa-check"></i> Table management</li>
+              <li><i class="fas fa-check"></i> Basic payment processing</li>
+            </ul>
+          </div>
+          <div class="pricing-action">
+            <a href="#" class="btn btn-primary">Get Started</a>
+          </div>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3>Business Pro</h3>
+            <div class="price">
+              <span class="currency">$</span>
+              <span class="amount">199</span>
+              <span class="period">/month</span>
+            </div>
+          </div>
+          <div class="pricing-features">
+            <ul>
+              <li><i class="fas fa-check"></i> All core features</li>
+              <li><i class="fas fa-check"></i> Unlimited orders</li>
+              <li><i class="fas fa-check"></i> Full menu customization</li>
+              <li><i class="fas fa-check"></i> QR code generation</li>
+              <li><i class="fas fa-check"></i> Advanced table management</li>
+              <li><i class="fas fa-check"></i> Full payment processing</li>
+              <li><i class="fas fa-check"></i> POS system integration</li>
+              <li><i class="fas fa-check"></i> Priority support</li>
+            </ul>
+          </div>
+          <div class="pricing-action">
+            <a href="#" class="btn btn-secondary">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <!-- Contact Form Section -->
+  <section id="contact-form" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
+      <p class="section-subtitle">Have questions? Reach out to us, and we'll get back to you within 24 hours.</p>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <p>info@qr-table.com</p>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <p>+1 (555) 123-4567</p>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>123 Restaurant Street, Food City, FC 12345</p>
+          </div>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <form id="order-form" action="/submit-request" method="POST" class="contact-form">
+          <input type="text" name="restaurantName" placeholder="Restaurant Name" required>
+          <input type="text" name="contactName" placeholder="Contact Name" required>
+          <input type="email" name="email" placeholder="Email" required>
+          <input type="tel" name="phone" placeholder="Phone" required>
+          <select name="plan">
+            <option value="basic">Basic</option>
+            <option value="premium">Premium</option>
+          </select>
+          <textarea name="message" placeholder="Message"></textarea>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
-  <footer>
-    <p>© 2025 QR Menu App. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="#" id="support-link">Support</a></p>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h3>QR Menu App</h3>
+          <p>Dining, Redefined</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Product</h4>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact-form">Contact</a>
+          </div>
+          <div class="footer-column">
+            <h4>Company</h4>
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Blog</a>
+            <a href="#">Press</a>
+          </div>
+          <div class="footer-column">
+            <h4>Legal</h4>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+            <a href="#" id="support-link">Support</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 QR Menu App. All rights reserved.</p>
+      </div>
+    </div>
   </footer>
 
-  <!-- JavaScript for Auth Modal -->
+  <!-- Support Modal -->
+  <dialog id="support-modal">
+    <article>
+      <a href="#" class="close">×</a>
+      <p>For all support issues, please email <a href="mailto:info@qr-table.com">info@qr-table.com</a></p>
+    </article>
+  </dialog>
+
+  <!-- JavaScript -->
   <script>
     const authIcon = document.getElementById('auth-icon');
     const authModal = document.getElementById('auth-modal');
@@ -137,8 +348,12 @@
     const switchToLogin = document.getElementById('switch-to-login');
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
+    const supportLink = document.getElementById('support-link');
+    const supportModal = document.getElementById('support-modal');
+    const supportCloseBtn = document.querySelector('#support-modal .close');
 
     authIcon.addEventListener('click', (e) => {
+      console.log("authIcon clicked");
       e.preventDefault();
       authModal.showModal();
       loginForm.style.display = 'block';
@@ -160,6 +375,16 @@
       e.preventDefault();
       loginForm.style.display = 'block';
       registerForm.style.display = 'none';
+    });
+
+    supportLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.showModal();
+    });
+
+    supportCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      supportModal.close();
     });
   </script>
 </body>
